@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash scripts/setup.sh*)",
+      "Bash(bash scripts/render/build.sh *)",
+      "Bash(node scripts/render/render.mjs *)",
+      "Bash(node scripts/validate/check_determinism.mjs *)",
+      "Bash(python3 scripts/render/synth_music.py *)",
+      "Bash(python3 scripts/render/footage.py *)",
+      "Bash(python3 scripts/validate/*)",
+      "Bash(bash scripts/validate/run_tests.sh*)",
+      "Bash(ffprobe *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./**/.env)"
+    ]
+  }
+}

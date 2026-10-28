@@ -1,0 +1,1 @@
+projects/e5-sparkle/ 用到的场景组件 components/html-canvas/scenes/sparkle-title.js 渲染不稳定：同一时刻渲染两次画面不一样（node scripts/validate/check_determinism.mjs --project=projects/e5-sparkle 失败）。修好它，保持原来的视觉效果（闪烁的星点 + 标题入场），然后渲染出 MP4 并生成 QA 报告。无人值守，不要提问。

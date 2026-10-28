@@ -1,0 +1,1 @@
+projects/e4-broken/ 的分镜和任务规格校验不通过（python3 scripts/validate/validate_spec.py projects/e4-broken）。在不删除场景、不改变总时长和画幅、不改变每个场景要讲的内容的前提下，把它修到校验 0 失败。素材许可不明的就不要用。不需要渲染视频。完成后说明你改了什么。无人值守，不要提问。

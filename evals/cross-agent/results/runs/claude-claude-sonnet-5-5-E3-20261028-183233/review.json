@@ -1,0 +1,17 @@
+{
+  "reviewer": "claude-sonnet-5-5 (same session as the builder — not an independent review)",
+  "reviewed_at": "2026-10-28",
+  "method": "contact sheet + flow strip (8 times, 3.4–7.3 s) + seam strips at 2.0 s and 7.5 s + bypass-arrow strip + 4 frames extracted from the encoded MP4, all opened and viewed",
+  "iterations": [
+    "v1: default style's 9:16 safe area (top 220/bottom 360) leaves no room at 1080 px tall -> new style.landscape.json (reference_width 1920, 16:9 safe area)",
+    "v2: flow boxes/labels looked small at 1920 wide -> nodes 340x270, labels 62 px, subs 42 px",
+    "v3: bypass arrow was drawn toward an empty slot before node 3 appeared -> retimed to start after node 3 lands (at 2.9 s)"
+  ],
+  "checks": [
+    { "id": "M1", "status": "pass", "note": "流程与题意一致：问题 → 检索资料库（找出相关段落）→ 大模型（段落＋原问题一起）→ 带依据的回答，结论「先检索，再生成」。简化：真实 RAG 还有切块、向量化、重排等步骤，已用「流程（示意）」标注；「带依据」不等于一定正确，画面写的是「可对照原文」而非「保证正确」。", "evidence": ["out/strip_flow.jpg", "out/keyframes/t7_37.png"] },
+    { "id": "M2", "status": "pass", "note": "三个场景首末帧均有变化：标题升起+下划线；四个框依次弹出、箭头逐段画出、蓝色绕行箭头把原问题送到第 3 框；结论、副句、RAG 徽章依次出现。", "evidence": ["out/contact_sheet.jpg", "out/strip_flow.jpg", "out/strip_bypass.jpg"] },
+    { "id": "M3", "status": "pass", "note": "每个时刻只有一个新元素在进入（最新框/箭头），其余已出现的元素保持静止；最后一个框用橙色强调。小瑕疵：流程图在 1080p 屏上整体偏小，框内副标题（42 px）较细。", "evidence": ["out/strip_flow.jpg", "out/review_mp4.jpg"] },
+    { "id": "M4", "status": "pass", "note": "未出现禁用效果；全片一种强调色（橙）+ 一种辅助色（蓝，仅用于绕行箭头）；字体、圆角与默认风格一致。", "evidence": ["out/contact_sheet.jpg"] },
+    { "id": "M5", "status": "pass", "note": "开头「先翻资料」→ 中段「检索资料库」→ 结尾「先检索，再生成」，同一动作逐步精确化。转场处（2.0 s、7.5 s）为经背景色的分段淡出/淡入，无双重曝光；有约 0.2 s 的近空背景，属于设计行为。", "evidence": ["out/review_seams.jpg"] }
+  ]
+}

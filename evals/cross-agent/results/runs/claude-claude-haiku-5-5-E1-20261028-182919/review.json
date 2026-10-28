@@ -1,0 +1,18 @@
+{
+  "reviewer": "claude-haiku-5-5 (same session as builder — not an independent review)",
+  "reviewed_at": "2026-10-28",
+  "method": "final contact sheet (16 preview times) + seam strips at 2.5 s, 5.5 s, 9.5 s, 12.5 s (6 frames each, 0.1 s steps) + s4 readout strip (9.9–11.2 s) + 6 frames extracted from the encoded MP4 (encode check: H.264 yuv420p 1080×1920 30 fps, 15.0 s, AAC)",
+  "iterations": [
+    "v1: push transition into s4 showed old and new captions overlapping at 9.7 s (double exposure) -> s4 transition_in changed to fade",
+    "v1: s4 on_screen_text had a placeholder 「最可能：「…」 xx%」 that did not match the rendered readout -> replaced with an accurate loop caption 「每一步都重新算一次概率」 (the readout itself is drawn by the append-loop component, values 好 62% / ， 41% / 适合 33%)",
+    "v1: storyboard motif claimed the opening shows 「今天天气真…」; it does not -> motif reworded to say the opening echoes 「说话」 and the recap returns the sentence",
+    "v1: s2 caption 「切分与编号均为示意」 needed 1.5 s hold -> start moved from 4.4 s to 4.0 s"
+  ],
+  "checks": [
+    { "id": "M1", "status": "warn", "note": "核心机制说法正确：切成 token、给候选词打概率、选一个接上、再预测。三处需要注意的简化：(1) 屏幕上「一次只猜一个词」中的「词」是通俗说法，实际是 token（词块），第 1 步已用「token（词块）」定义；(2) 画面写「选出概率最高的词」，但真实模型常用采样而非总取最高概率，这一点画面未说明；(3) token 切分、编号（#1024 等）和所有概率数字均已标注「示意」，没有被说成真实数据。建议在发布说明或评论区补一句「实际模型会按概率采样」。", "evidence": ["out/contact_sheet.jpg", "out/strip_s4_readout.jpg"] },
+    { "id": "M2", "status": "pass", "note": "5 个场景首末帧都有可见变化，与 event 描述一致：s1 标题两行升起、「说话」下划线扫过；s2 句子裂成 3 个词块、下方出现示意编号；s3 四根概率条依次长出、「好」被框住并填入问号；s4 词块逐个接上，每步先出现问号再落下新词；s5 回顾行出现、结论升起、术语徽章「自回归生成」弹出。MP4 抽帧与预览一致。", "evidence": ["out/contact_sheet.jpg", "out/review_mp4.jpg"] },
+    { "id": "M3", "status": "pass", "note": "每个时间点都有一个主焦点：s1 「说话」，s2 三个词块，s3 「好」的概率条（橙色、其余变暗），s4 正在接上的新词与问号，s5 结论标题。s4 的词块在 1080 宽下折成两行（今天 天气 真 / 好 ， 适合 出门），断行不影响阅读。", "evidence": ["out/contact_sheet.jpg", "out/strip_seam3_v2.jpg"] },
+    { "id": "M4", "status": "warn", "note": "未出现禁用效果（无粒子、无辉光、无抖动、无弹性缓动）。全片配色和字体一致。但 s2 的词块按 token-split 组件默认规则，橙色与蓝色交替填充，同一场景里出现两种有强调感的颜色，与 style.default.json 的「每场景只用一种强调色」有出入；s4 的循环标签也是蓝色。建议改 token-split 的交替配色（或让 s2 词块统一用 accent 描边），这需要改组件，本次未改。", "evidence": ["out/contact_sheet.jpg", "out/strip_seam1.jpg"] },
+    { "id": "M5", "status": "pass", "note": "母题「今天天气真…」在中段被切开、被补全，在 s5 以回顾行「今天天气真好，适合出门」回到屏幕上，首尾呼应；开场以「说话」二字与结论的「说话」「自回归生成」相互对应。", "evidence": ["out/contact_sheet.jpg", "out/review_mp4.jpg"] }
+  ]
+}

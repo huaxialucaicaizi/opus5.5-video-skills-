@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "id": "ai-explainer-15s",
+  "title": "AI 是怎么“说话”的？",
+  "topic": "大语言模型的自回归生成：分词 → 打分 → 选词 → 接上再猜",
+  "goal": "看完的人能说出：AI 每次只预测下一个词，把它接上再预测下一个。",
+  "audience": "对 AI 好奇、没有技术背景的短视频用户",
+  "language": "zh-CN",
+  "platform": "douyin",
+  "duration_s": 15,
+  "format": { "width": 1080, "height": 1920, "fps": 30, "motion_blur_subframes": 1 },
+  "renderer": "html-canvas",
+  "style": "../../templates/visual-style/style.default.json",
+  "key_messages": [
+    "文字先被切成一个个 token",
+    "模型给每个候选词一个概率",
+    "选出一个词接上，再猜下一个（自回归）"
+  ],
+  "must_avoid": [
+    "声称 AI 理解或思考",
+    "把示意性的 token 编号和概率说成真实模型数据",
+    "粒子爆炸、霓虹辉光等禁用效果"
+  ],
+  "audio": {
+    "music": { "source": "synth", "bpm": 120 },
+    "narration": { "enabled": false },
+    "target_lufs": -14
+  },
+  "assets": [],
+  "deliverables": ["storyboard", "mp4", "contact_sheet", "keyframes", "qa_report"],
+  "notes": "无旁白版本：全部信息靠屏幕文字传达，因此阅读速度检查是关键。所有声音由 scripts/render/synth_music.py 程序化生成。"
+}

@@ -1,0 +1,1 @@
+projects/e6-pip/inputs/ 里有 broll.mp4（竖屏动画）、talk.mp4（横屏口播，有声音）和 subs.srt。做一条 projects/e6-pip/out/final.mp4：主画面是 broll，口播缩成右下角圆形画中画，声音用口播原声，字幕以可开关的字幕轨方式加入（不要烧录），时长与口播一致。原文件不能改。无人值守，不要提问。

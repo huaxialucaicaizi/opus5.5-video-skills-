@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-video-skills.local/spec/video-task.schema.json",
+  "title": "Video Task Spec",
+  "description": "What the client wants. Written first (by a human or by video-planner), before any storyboard or code. Agent-neutral.",
+  "type": "object",
+  "required": ["schema_version", "id", "title", "goal", "audience", "language", "duration_s", "format", "renderer", "audio", "assets", "deliverables"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,63}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "topic": { "type": "string" },
+    "goal": { "type": "string", "description": "One sentence: what the viewer should understand or do after watching." },
+    "audience": { "type": "string" },
+    "language": { "type": "string", "description": "BCP-47, e.g. zh-CN, en, zh-CN+en for bilingual." },
+    "platform": { "type": "string", "examples": ["douyin", "xiaohongshu", "bilibili", "youtube-shorts", "x", "generic"] },
+    "duration_s": { "type": "number", "exclusiveMinimum": 0, "maximum": 600 },
+    "format": {
+      "type": "object",
+      "required": ["width", "height", "fps"],
+      "additionalProperties": false,
+      "properties": {
+        "width": { "type": "integer", "minimum": 64, "maximum": 7680 },
+        "height": { "type": "integer", "minimum": 64, "maximum": 7680 },
+        "fps": { "type": "integer", "enum": [24, 25, 30, 50, 60] },
+        "motion_blur_subframes": { "type": "integer", "minimum": 1, "maximum": 8, "default": 1 }
+      }
+    },
+    "renderer": { "enum": ["html-canvas", "remotion", "other"] },
+    "style": { "type": "string", "description": "Path to a visual-style JSON (templates/visual-style/*.json)." },
+    "key_messages": { "type": "array", "items": { "type": "string" }, "maxItems": 7 },
+    "must_avoid": { "type": "array", "items": { "type": "string" } },
+    "audio": {
+      "type": "object",
+      "required": ["music"],
+      "additionalProperties": false,
+      "properties": {
+        "music": {
+          "type": "object",
+          "required": ["source"],
+          "properties": {
+            "source": { "enum": ["synth", "file", "none"] },
+            "path": { "type": "string" },
+            "asset_id": { "type": "string", "description": "Must reference assets[].id when source=file." },
+            "bpm": { "type": "number", "minimum": 40, "maximum": 220 }
+          }
+        },
+        "narration": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "tts_provider": { "type": "string" },
+            "script_path": { "type": "string" }
+          }
+        },
+        "target_lufs": { "type": "number", "minimum": -30, "maximum": -8, "default": -14 }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "description": "Every external file used. Empty array means everything is generated in code.",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "author", "license", "commercial_use"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "path": { "type": "string" },
+          "source_url": { "type": "string" },
+          "author": { "type": "string", "minLength": 1 },
+          "license": { "type": "string", "minLength": 1, "description": "SPDX id, 'owned', 'generated', or the licence name. 'unknown' fails validation." },
+          "commercial_use": { "type": "boolean" },
+          "proof": { "type": "string", "description": "Where the licence evidence is kept (URL or file)." }
+        }
+      }
+    },
+    "deliverables": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "enum": ["storyboard", "mp4", "contact_sheet", "keyframes", "qa_report", "srt", "source"] }
+    },
+    "notes": { "type": "string" }
+  }
+}

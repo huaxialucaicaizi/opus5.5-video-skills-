@@ -1,0 +1,13 @@
+node_modules/
+out/
+*.tmp
+__pycache__/
+.env
+components/remotion/test/.build/
+components/remotion/node_modules/
+.avs-root
+.claude/skills/
+.agents/skills/
+.grok/skills/
+evals/cross-agent/runs/
+examples/*/out/

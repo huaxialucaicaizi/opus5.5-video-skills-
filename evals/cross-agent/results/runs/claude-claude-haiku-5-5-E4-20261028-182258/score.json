@@ -1,0 +1,24 @@
+{
+  "components": {
+    "planted_fixed": 70.0,
+    "intent": 30.0
+  },
+  "planted": {
+    "S1.contiguous": "pass",
+    "S2.reads": "pass",
+    "S3.reading": "pass",
+    "S5.transitions": "pass",
+    "S6.components": "pass",
+    "L1.licences": "pass"
+  },
+  "p0_fail": [],
+  "fail": [],
+  "total": 100.0,
+  "task": "E4",
+  "integrity": {
+    "ok": true,
+    "modified": [],
+    "engine_modified": false
+  },
+  "profile": "repair"
+}

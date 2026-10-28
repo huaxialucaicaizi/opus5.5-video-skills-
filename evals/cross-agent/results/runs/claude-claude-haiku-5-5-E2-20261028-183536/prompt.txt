@@ -1,0 +1,1 @@
+用本工具包做一条 15 秒竖屏（1080×1920，30fps）中文科普短片：为什么 AI 有时会“一本正经地胡说八道”（幻觉）。要让观众明白：模型按概率接词，看起来通顺不等于是真的，所以重要信息要核实。项目放在 projects/e2-hallucination/，task id 用 e2-hallucination。按 AGENTS.md 和 skills/ 的流程完成到 QA 报告。无人值守，不要提问。

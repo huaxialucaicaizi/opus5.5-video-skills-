@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-video-skills.local/templates/storyboard/storyboard.schema.json",
+  "title": "Storyboard",
+  "description": "Shot-by-shot plan. Produced by video-planner, approved before code, then consumed directly by the renderer: each scene names a component and its params.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "task_id",
+    "duration_s",
+    "fps",
+    "width",
+    "height",
+    "logline",
+    "scenes"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "time": {
+      "type": "number",
+      "minimum": 0
+    },
+    "transition": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "fade",
+            "cut-on-action",
+            "smash-cut",
+            "push",
+            "wipe",
+            "iris",
+            "match-cut",
+            "whip",
+            "morph",
+            "none"
+          ]
+        },
+        "duration": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "text": {
+      "type": "object",
+      "required": [
+        "text",
+        "start",
+        "end",
+        "role"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "start": {
+          "$ref": "#/$defs/time"
+        },
+        "end": {
+          "$ref": "#/$defs/time"
+        },
+        "role": {
+          "enum": [
+            "title",
+            "headline",
+            "body",
+            "caption",
+            "label",
+            "subtitle"
+          ]
+        }
+      }
+    },
+    "read": {
+      "type": "object",
+      "required": [
+        "start",
+        "end",
+        "what"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "$ref": "#/$defs/time"
+        },
+        "end": {
+          "$ref": "#/$defs/time"
+        },
+        "what": {
+          "type": "string",
+          "description": "What the viewer must understand in this window."
+        }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "duration_s": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "fps": {
+      "type": "integer"
+    },
+    "width": {
+      "type": "integer"
+    },
+    "height": {
+      "type": "integer"
+    },
+    "bpm": {
+      "type": "number",
+      "minimum": 40,
+      "maximum": 220
+    },
+    "beat_offset_s": {
+      "type": "number",
+      "minimum": 0,
+      "default": 0
+    },
+    "style": {
+      "type": "string"
+    },
+    "logline": {
+      "type": "string",
+      "description": "One sentence: the story in the shape 'X wants/is Y, but Z, so W' or 'question → answer'."
+    },
+    "motif": {
+      "type": "string",
+      "description": "The visual element that recurs and pays off (rhymes opening with ending)."
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "start",
+          "end",
+          "purpose",
+          "event",
+          "visual",
+          "component",
+          "transition_in",
+          "reads"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "start": {
+            "$ref": "#/$defs/time"
+          },
+          "end": {
+            "$ref": "#/$defs/time"
+          },
+          "purpose": {
+            "type": "string",
+            "description": "Why the scene exists (hook / define / show mechanism / payoff / CTA)."
+          },
+          "event": {
+            "type": "string",
+            "description": "What changes between first and last frame. A scene with no event fails review."
+          },
+          "visual": {
+            "type": "string"
+          },
+          "camera": {
+            "type": "string"
+          },
+          "component": {
+            "type": "string",
+            "description": "Scene component name registered in the renderer."
+          },
+          "params": {
+            "type": "object",
+            "description": "Component-specific params; the renderer passes them through untouched."
+          },
+          "on_screen_text": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "narration": {
+            "type": "string"
+          },
+          "reads": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/read"
+            }
+          },
+          "transition_in": {
+            "$ref": "#/$defs/transition"
+          },
+          "transition_out": {
+            "$ref": "#/$defs/transition"
+          },
+          "audio_cues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "t",
+                "type"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "t": {
+                  "$ref": "#/$defs/time"
+                },
+                "type": {
+                  "enum": [
+                    "tick",
+                    "pop",
+                    "whoosh",
+                    "chime",
+                    "hit"
+                  ]
+                },
+                "gain": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              }
+            }
+          },
+          "check_at": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/time"
+            },
+            "description": "Extra absolute times the reviewer must look at."
+          }
+        }
+      }
+    },
+    "reserved_regions": {
+      "type": "array",
+      "description": "Screen areas no text may enter (e.g. a picture-in-picture talking head added later by footage-editing). Pixels in final frame coordinates.",
+      "items": {
+        "type": "object",
+        "required": [
+          "x",
+          "y",
+          "w",
+          "h",
+          "label"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "w": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "h": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "label": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

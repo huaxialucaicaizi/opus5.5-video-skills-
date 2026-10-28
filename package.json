@@ -1,0 +1,18 @@
+{
+  "name": "ai-video-skills",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "Cross-agent toolkit for code-rendered video: planning, deterministic HTML-canvas/Remotion rendering, QA.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "sheet": "node scripts/render/render.mjs --project=examples/ai-explainer-15s --sheet",
+    "build:example": "bash scripts/render/build.sh examples/ai-explainer-15s",
+    "validate": "python3 scripts/validate/validate_spec.py examples/ai-explainer-15s",
+    "test": "bash scripts/validate/run_tests.sh"
+  },
+  "dependencies": {
+    "playwright-core": "^1.48.0"
+  }
+}

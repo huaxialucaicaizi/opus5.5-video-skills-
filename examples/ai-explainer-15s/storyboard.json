@@ -1,0 +1,489 @@
+{
+  "schema_version": "1.0",
+  "task_id": "ai-explainer-15s",
+  "duration_s": 15,
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "bpm": 120,
+  "beat_offset_s": 0,
+  "style": "../../templates/visual-style/style.default.json",
+  "logline": "问：AI 是怎么说出一句话的？答：它一次只猜下一个词，接上，再猜。",
+  "motif": "句子「今天天气真…」：开场被提问，中段被切开、被补全，结尾作为回顾行回来。",
+  "scenes": [
+    {
+      "id": "s1_hook",
+      "start": 0,
+      "end": 2.5,
+      "purpose": "hook：抛出问题",
+      "event": "标题两行依次升起，「说话」被强调色下划线扫过，光标开始闪烁",
+      "visual": "大标题居中，上方小标签「AI 小科普」",
+      "camera": "缓慢推近 3.5%",
+      "component": "kinetic-title",
+      "params": {
+        "kicker": "AI 小科普",
+        "lines": [
+          "AI 是怎么",
+          "“说话”的？"
+        ],
+        "highlight": {
+          "line": 1,
+          "text": "说话"
+        },
+        "cursor": true
+      },
+      "on_screen_text": [
+        {
+          "text": "AI 小科普",
+          "start": 0.05,
+          "end": 2.5,
+          "role": "label"
+        },
+        {
+          "text": "AI 是怎么“说话”的？",
+          "start": 0.25,
+          "end": 2.5,
+          "role": "title"
+        }
+      ],
+      "reads": [
+        {
+          "start": 0.25,
+          "end": 1.4,
+          "what": "这是一个关于 AI 说话的问题"
+        },
+        {
+          "start": 1.4,
+          "end": 2.4,
+          "what": "重点是「说话」这个动作（光标暗示打字/生成）"
+        }
+      ],
+      "transition_in": {
+        "type": "fade",
+        "duration": 0.35
+      },
+      "transition_out": {
+        "type": "push",
+        "duration": 0.45
+      },
+      "audio_cues": [
+        {
+          "t": 0.25,
+          "type": "whoosh",
+          "gain": 0.5
+        },
+        {
+          "t": 1.0,
+          "type": "tick",
+          "gain": 0.6
+        }
+      ]
+    },
+    {
+      "id": "s2_tokens",
+      "start": 2.5,
+      "end": 5.5,
+      "purpose": "定义：token",
+      "event": "完整句子「今天天气真」裂开成 3 个 token 方块，下方浮现编号",
+      "visual": "句子居中，切开后变成彩色描边方块",
+      "camera": "缓慢推近 2.5%",
+      "component": "token-split",
+      "params": {
+        "caption": "第 1 步：把句子切成 token",
+        "tokens": [
+          "今天",
+          "天气",
+          "真"
+        ],
+        "ids": [
+          "#1024",
+          "#2077",
+          "#88"
+        ],
+        "splitAt": 0.75,
+        "idsAt": 1.4,
+        "note": "编号仅为示意"
+      },
+      "on_screen_text": [
+        {
+          "text": "第 1 步：把句子切成 token",
+          "start": 2.5,
+          "end": 5.5,
+          "role": "caption"
+        },
+        {
+          "text": "今天 天气 真",
+          "start": 2.65,
+          "end": 5.5,
+          "role": "headline"
+        },
+        {
+          "text": "#1024 #2077 #88",
+          "start": 3.9,
+          "end": 5.5,
+          "role": "label"
+        },
+        {
+          "text": "编号仅为示意",
+          "start": 4.4,
+          "end": 5.5,
+          "role": "caption"
+        }
+      ],
+      "reads": [
+        {
+          "start": 2.6,
+          "end": 3.25,
+          "what": "这是一句没说完的话"
+        },
+        {
+          "start": 3.25,
+          "end": 3.9,
+          "what": "它被切成了几块（token）"
+        },
+        {
+          "start": 3.9,
+          "end": 5.4,
+          "what": "每块对应一个编号，模型处理的是编号"
+        }
+      ],
+      "transition_in": {
+        "type": "push",
+        "duration": 0.45
+      },
+      "audio_cues": [
+        {
+          "t": 3.25,
+          "type": "pop",
+          "gain": 0.5
+        },
+        {
+          "t": 3.31,
+          "type": "pop",
+          "gain": 0.4
+        },
+        {
+          "t": 3.37,
+          "type": "pop",
+          "gain": 0.35
+        }
+      ]
+    },
+    {
+      "id": "s3_probs",
+      "start": 5.5,
+      "end": 9.5,
+      "purpose": "机制：给候选词打分",
+      "event": "四根概率条依次长出，「好」胜出被框住，其它变暗，问号槽被填上「好」",
+      "visual": "上方是上下文 + 问号槽，中间是问题，下方横向概率条",
+      "camera": "缓慢推近 3%",
+      "component": "prob-bars",
+      "params": {
+        "caption": "第 2 步：给每个候选词打分",
+        "context": [
+          "今天",
+          "天气",
+          "真"
+        ],
+        "question": "下一个词是什么？",
+        "options": [
+          {
+            "label": "好",
+            "p": 0.62
+          },
+          {
+            "label": "热",
+            "p": 0.17
+          },
+          {
+            "label": "冷",
+            "p": 0.12
+          },
+          {
+            "label": "差",
+            "p": 0.09
+          }
+        ],
+        "pick": 0,
+        "pickAt": 2.6,
+        "note": "概率仅为示意"
+      },
+      "on_screen_text": [
+        {
+          "text": "第 2 步：给每个候选词打分",
+          "start": 5.5,
+          "end": 9.5,
+          "role": "caption"
+        },
+        {
+          "text": "今天 天气 真 ？",
+          "start": 5.6,
+          "end": 9.5,
+          "role": "body"
+        },
+        {
+          "text": "下一个词是什么？",
+          "start": 5.95,
+          "end": 9.5,
+          "role": "headline"
+        },
+        {
+          "text": "好 62% 热 17% 冷 12% 差 9%",
+          "start": 6.4,
+          "end": 9.5,
+          "role": "body"
+        },
+        {
+          "text": "概率仅为示意",
+          "start": 8.4,
+          "end": 9.5,
+          "role": "caption"
+        }
+      ],
+      "reads": [
+        {
+          "start": 5.6,
+          "end": 6.4,
+          "what": "问题：接下来该接哪个词"
+        },
+        {
+          "start": 6.4,
+          "end": 8.0,
+          "what": "每个候选词都有一个概率"
+        },
+        {
+          "start": 8.1,
+          "end": 9.4,
+          "what": "概率最高的「好」被选中，填进问号"
+        }
+      ],
+      "transition_in": {
+        "type": "fade",
+        "duration": 0.4
+      },
+      "audio_cues": [
+        {
+          "t": 6.4,
+          "type": "tick",
+          "gain": 0.4
+        },
+        {
+          "t": 6.52,
+          "type": "tick",
+          "gain": 0.35
+        },
+        {
+          "t": 6.64,
+          "type": "tick",
+          "gain": 0.3
+        },
+        {
+          "t": 6.76,
+          "type": "tick",
+          "gain": 0.25
+        },
+        {
+          "t": 8.1,
+          "type": "chime",
+          "gain": 0.6
+        }
+      ],
+      "check_at": [
+        8.2
+      ]
+    },
+    {
+      "id": "s4_loop",
+      "start": 9.5,
+      "end": 12.5,
+      "purpose": "机制：自回归循环",
+      "event": "句子逐个接上「好」「，」「适合」「出门」，每次先出问号再落下新词",
+      "visual": "一行 token 方块不断变长，下方小读数显示当前最可能的词",
+      "camera": "缓慢推近 2%",
+      "component": "append-loop",
+      "params": {
+        "caption": "第 3 步：接上，再猜下一个",
+        "start": [
+          "今天",
+          "天气",
+          "真"
+        ],
+        "steps": [
+          {
+            "token": "好",
+            "p": 0.62
+          },
+          {
+            "token": "，",
+            "p": 0.41
+          },
+          {
+            "token": "适合",
+            "p": 0.33
+          },
+          {
+            "token": "出门",
+            "p": 0.58
+          }
+        ],
+        "stepDur": 0.6,
+        "firstAt": 0.3,
+        "loopLabel": "一遍又一遍"
+      },
+      "on_screen_text": [
+        {
+          "text": "第 3 步：接上，再猜下一个",
+          "start": 9.5,
+          "end": 12.5,
+          "role": "caption"
+        },
+        {
+          "text": "今天 天气 真 好 ， 适合 出门",
+          "start": 9.6,
+          "end": 12.5,
+          "role": "headline"
+        },
+        {
+          "text": "最可能：「…」 xx%",
+          "start": 9.8,
+          "end": 12.2,
+          "role": "caption"
+        },
+        {
+          "text": "一遍又一遍",
+          "start": 10.7,
+          "end": 12.5,
+          "role": "body"
+        }
+      ],
+      "reads": [
+        {
+          "start": 9.6,
+          "end": 10.7,
+          "what": "选中的词被接到句子末尾"
+        },
+        {
+          "start": 10.7,
+          "end": 12.4,
+          "what": "同样的步骤重复，句子越来越长"
+        }
+      ],
+      "transition_in": {
+        "type": "push",
+        "duration": 0.4
+      },
+      "audio_cues": [
+        {
+          "t": 10.4,
+          "type": "pop",
+          "gain": 0.45
+        },
+        {
+          "t": 11.0,
+          "type": "pop",
+          "gain": 0.45
+        },
+        {
+          "t": 11.6,
+          "type": "pop",
+          "gain": 0.45
+        },
+        {
+          "t": 12.2,
+          "type": "pop",
+          "gain": 0.45
+        }
+      ]
+    },
+    {
+      "id": "s5_takeaway",
+      "start": 12.5,
+      "end": 15,
+      "purpose": "payoff：一句话结论 + 术语",
+      "event": "完整句子作为回顾行出现，结论标题升起，最后术语徽章「自回归生成」弹出",
+      "visual": "顶部小号回顾行，中间结论，底部强调色徽章",
+      "camera": "缓慢推近 4%",
+      "component": "takeaway",
+      "params": {
+        "recap": [
+          "今天",
+          "天气",
+          "真",
+          "好",
+          "，",
+          "适合",
+          "出门"
+        ],
+        "kicker": "这就是 AI 的“说话”",
+        "headline": "AI 一次只猜一个词",
+        "sub": "猜完接上，再猜下一个",
+        "term": "自回归生成",
+        "termAt": 1.2
+      },
+      "on_screen_text": [
+        {
+          "text": "今天天气真好，适合出门",
+          "start": 12.55,
+          "end": 15,
+          "role": "caption"
+        },
+        {
+          "text": "这就是 AI 的“说话”",
+          "start": 12.85,
+          "end": 15,
+          "role": "caption"
+        },
+        {
+          "text": "AI 一次只猜一个词",
+          "start": 13.0,
+          "end": 15,
+          "role": "headline"
+        },
+        {
+          "text": "猜完接上，再猜下一个",
+          "start": 13.35,
+          "end": 15,
+          "role": "body"
+        },
+        {
+          "text": "自回归生成",
+          "start": 13.7,
+          "end": 15,
+          "role": "headline"
+        }
+      ],
+      "reads": [
+        {
+          "start": 12.6,
+          "end": 13.3,
+          "what": "回到刚才那句话（首尾呼应）"
+        },
+        {
+          "start": 13.3,
+          "end": 14.0,
+          "what": "结论：一次只猜一个词"
+        },
+        {
+          "start": 14.0,
+          "end": 14.9,
+          "what": "这个过程的名字叫自回归生成"
+        }
+      ],
+      "transition_in": {
+        "type": "fade",
+        "duration": 0.4
+      },
+      "transition_out": {
+        "type": "fade",
+        "duration": 0.35
+      },
+      "audio_cues": [
+        {
+          "t": 13.7,
+          "type": "chime",
+          "gain": 0.7
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "notes": "Prompts are identical for every agent. {WS} is never shown to the agent: it works in its own workspace root. Each task's `profile` selects the scoring recipe in score_run.py.",
+  "tasks": [
+    {
+      "id": "E1", "profile": "build", "difficulty": "baseline",
+      "title": "复现：15 秒 AI 科普（AI 是怎么说话的）",
+      "project": "projects/e1-how-ai-talks",
+      "prompt": "用本工具包做一条 15 秒竖屏（1080×1920，30fps）中文 AI 科普短片，主题：AI 是怎么“说话”的（讲清楚：切成 token → 给候选词打概率 → 选一个接上再猜）。项目放在 projects/e1-how-ai-talks/，task id 用 e1-how-ai-talks。按 AGENTS.md 和 skills/ 里的流程完成：分镜、校验、渲染 MP4、自己看关键帧、写 review.json、生成 QA 报告。无人值守，不要提问，假设写进 task.json 的 notes。",
+      "expect": { "duration_s": 15, "width": 1080, "height": 1920, "fps": 30, "keywords_any": [["token", "词元"], ["概率", "打分"], ["接上", "自回归", "再猜"]] }
+    },
+    {
+      "id": "E2", "profile": "build", "difficulty": "transfer",
+      "title": "迁移：15 秒讲 AI 幻觉",
+      "project": "projects/e2-hallucination",
+      "prompt": "用本工具包做一条 15 秒竖屏（1080×1920，30fps）中文科普短片：为什么 AI 有时会“一本正经地胡说八道”（幻觉）。要让观众明白：模型按概率接词，看起来通顺不等于是真的，所以重要信息要核实。项目放在 projects/e2-hallucination/，task id 用 e2-hallucination。按 AGENTS.md 和 skills/ 的流程完成到 QA 报告。无人值守，不要提问。",
+      "expect": { "duration_s": 15, "width": 1080, "height": 1920, "fps": 30, "keywords_any": [["幻觉", "胡说"], ["概率"], ["核实", "查证", "验证"]] }
+    },
+    {
+      "id": "E3", "profile": "build", "difficulty": "new-component",
+      "title": "扩展：10 秒横屏解释 RAG（需要新组件）",
+      "project": "projects/e3-rag",
+      "prompt": "用本工具包做一条 10 秒横屏（1920×1080，30fps）中文短片，一句话解释 RAG（检索增强生成）：问题 → 去资料库检索相关段落 → 把段落和问题一起交给模型 → 生成带依据的回答。必须画出这条流程（框和箭头依次出现），现有组件不够就按规则新建一个场景组件并注册。项目放在 projects/e3-rag/，task id 用 e3-rag。完成到 QA 报告。无人值守，不要提问。",
+      "expect": { "duration_s": 10, "width": 1920, "height": 1080, "fps": 30, "keywords_any": [["检索"], ["生成"], ["资料", "文档", "段落"]], "new_component": true }
+    },
+    {
+      "id": "E4", "profile": "repair", "difficulty": "spec",
+      "title": "修复：分镜校验失败",
+      "project": "projects/e4-broken",
+      "prompt": "projects/e4-broken/ 的分镜和任务规格校验不通过（python3 scripts/validate/validate_spec.py projects/e4-broken）。在不删除场景、不改变总时长和画幅、不改变每个场景要讲的内容的前提下，把它修到校验 0 失败。素材许可不明的就不要用。不需要渲染视频。完成后说明你改了什么。无人值守，不要提问。",
+      "expect": { "scene_ids": ["s1_hook", "s2_tokens", "s3_probs", "s4_loop", "s5_takeaway"], "duration_s": 15 }
+    },
+    {
+      "id": "E5", "profile": "determinism", "difficulty": "code",
+      "title": "修复：非确定性场景组件",
+      "project": "projects/e5-sparkle",
+      "prompt": "projects/e5-sparkle/ 用到的场景组件 components/html-canvas/scenes/sparkle-title.js 渲染不稳定：同一时刻渲染两次画面不一样（node scripts/validate/check_determinism.mjs --project=projects/e5-sparkle 失败）。修好它，保持原来的视觉效果（闪烁的星点 + 标题入场），然后渲染出 MP4 并生成 QA 报告。无人值守，不要提问。",
+      "expect": { "duration_s": 6, "width": 1080, "height": 1920, "fps": 30, "component_file": "components/html-canvas/scenes/sparkle-title.js" }
+    },
+    {
+      "id": "E6", "profile": "footage", "difficulty": "editing",
+      "title": "剪辑：口播画中画 + 字幕轨",
+      "project": "projects/e6-pip",
+      "prompt": "projects/e6-pip/inputs/ 里有 broll.mp4（竖屏动画）、talk.mp4（横屏口播，有声音）和 subs.srt。做一条 projects/e6-pip/out/final.mp4：主画面是 broll，口播缩成右下角圆形画中画，声音用口播原声，字幕以可开关的字幕轨方式加入（不要烧录），时长与口播一致。原文件不能改。无人值守，不要提问。",
+      "expect": { "output": "projects/e6-pip/out/final.mp4", "duration_from": "projects/e6-pip/inputs/talk.mp4", "width": 1080, "height": 1920 }
+    },
+    {
+      "id": "E7", "profile": "review", "difficulty": "qa",
+      "title": "审片：找出预埋缺陷",
+      "project": "projects/e7-review",
+      "prompt": "审一下 projects/e7-review/ 这条已经渲染好的片子（out/e7-review.mp4），按 skills/video-quality-reviewer 的流程写 review.json 并生成 QA 报告，最后列出按优先级排序的修改清单（写到 projects/e7-review/FIXES.md）。只审不改。无人值守，不要提问。",
+      "expect": {
+        "defects": {
+          "D1_prob_sum": ["121", "超过 100", "超过100", "总和", "加起来", "sum", "100%"],
+          "D2_loudness": ["LUFS", "响度", "loudness", "音量"],
+          "D3_safe_area": ["安全区", "safe area", "safe_area", "V1", "底部", "遮挡"],
+          "D4_reading": ["阅读", "停留", "reading", "S3", "太短", "不够"]
+        }
+      }
+    }
+  ]
+}

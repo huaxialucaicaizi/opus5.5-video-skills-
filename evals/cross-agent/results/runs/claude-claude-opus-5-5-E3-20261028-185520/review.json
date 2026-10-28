@@ -1,0 +1,15 @@
+{
+  "reviewer": "claude-opus-5-5 (same session as builder — not an independent review)",
+  "reviewed_at": "2026-10-28",
+  "method": "contact sheet (12 auto times) + full-res keyframes (t5_07) + flow strip (out/check_b.jpg, 6 frames 3.0–6.9 s) + seam/ending strip (out/strip_seams.jpg, 18 frames around 2.0 s, 7.5 s, 9.6–10 s) + 6 frames extracted from the encoded MP4 (out/review_mp4.jpg)",
+  "iterations": [
+    "v1: diagram too small for 16:9 and two sub-captions orphaned one character ('段/落', '交/给模型') -> boxes 300×340, icons ×1.3, titles 72 px, sub maxWidth widened into the gap so each fits on one line"
+  ],
+  "checks": [
+    { "id": "M1", "status": "pass", "note": "流程与 RAG 定义一致：提问 → 从资料库检索相关段落 → 段落与问题拼进模型输入（增强）→ 模型生成回答，回答可标注出处 [1]。没有声称 RAG 消除幻觉或让模型‘学会’资料。简化未标注：检索通常靠向量相似度、一次取多段；10 秒片可接受。", "evidence": ["out/keyframes/t6_90.png", "out/check_b.jpg"] },
+    { "id": "M2", "status": "pass", "note": "s1 标题升起+「检索」下划线+光标；s2 四个框与三条箭头依次出现（3.0 s 1 框 → 4.0 s 2 框 → 4.9 s 3 框 → 6.1 s 4 框 → 6.9 s 依据虚线），资料页扫描后高亮段落、段落+问题两条进入模型、回答逐行写出；s3 回顾行→结论→术语徽章。", "evidence": ["out/check_b.jpg", "out/contact_sheet.jpg"] },
+    { "id": "M3", "status": "pass", "note": "s2 中当前步骤框为唯一强调色描边，旧框转中性；依据弧出现时改为蓝色辅助色，焦点切到弧和 [1]。小问题：s2 画面下方约 25% 留白，2.30–2.45 s 擦除刚结束时只有小标题（约 0.15 s）。", "evidence": ["out/keyframes/t5_07.png", "out/strip_seams.jpg"] },
+    { "id": "M4", "status": "pass", "note": "无禁用效果（无粒子、辉光、抖动、弹性文字）；一强调色（橙）+ 一辅助色（蓝，仅用于‘依据’）；字体、圆角与默认风格一致；横屏样式只改了字号与安全区。", "evidence": ["out/contact_sheet.jpg", "out/review_mp4.jpg"] },
+    { "id": "M5", "status": "pass", "note": "开头标题「RAG：检索增强生成」，结尾徽章「RAG · 检索增强生成」回扣；回顾行「提问 检索 增强 生成」把中段四个框带回来。", "evidence": ["out/keyframes/t9_87.png", "out/keyframes/t1_87.png"] }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "components": {
+    "recall": 70.0,
+    "artefacts": 30
+  },
+  "defects_found": {
+    "D1_prob_sum": true,
+    "D2_loudness": true,
+    "D3_safe_area": true,
+    "D4_reading": true
+  },
+  "p0_fail": [],
+  "fail": [],
+  "note": "keyword-based recall: a reviewer can mention a keyword without diagnosing the defect; spot-check FIXES.md by hand",
+  "total": 100.0,
+  "task": "E7",
+  "integrity": {
+    "ok": true,
+    "modified": [],
+    "engine_modified": false
+  },
+  "profile": "review"
+}
