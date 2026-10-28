@@ -45,11 +45,19 @@ def run(project, layout_path=None):
         for i, a in enumerate(vis):
             for b in vis[i + 1:]:
                 if overlap(a, b, tol): ovl.setdefault(tuple(sorted((a['id'], b['id']))), s['t'])
+    res_hits = {}
+    for r in sb.get('reserved_regions', []):
+        rb = {'x': r['x'], 'y': r['y'], 'w': r['w'], 'h': r['h']}
+        for smp in L['samples']:
+            for b in smp['boxes']:
+                if b['alpha'] >= VIS and overlap(b, rb, tol): res_hits.setdefault(f"{b['id']}∩{r['label']}", (smp['t'], [round(b['x']), round(b['y'])]))
     fmt = lambda d: '; '.join(f'{k} @t={v[0]} {v[1]}' for k, v in list(d.items())[:8])
     n = len(L['samples'])
     return [
         check('V1.safe_area', 'P0', not out_safe, f'text inside safe area ({len(settled)}/{n} settled samples)', f'safe box {[round(x) for x in box]}; ' + fmt(out_safe)),
         check('V2.min_px', 'P1', not small, f'font size ≥ {min_px:.0f}px', fmt(small)),
+        (check('V4.reserved', 'P0', not res_hits, f"text stays out of {len(sb['reserved_regions'])} reserved region(s)", fmt(res_hits))
+         if sb.get('reserved_regions') else skip('V4.reserved', 'P0', 'text stays out of reserved regions', 'none declared')),
         check('V3.overlap', 'P1', not ovl, 'no overlapping text boxes', '; '.join(f'{a} × {b} @t={t}' for (a, b), t in list(ovl.items())[:8])),
     ]
 
