@@ -5,7 +5,9 @@ import { existsSync, readdirSync } from 'node:fs';
 import { extname, join, resolve, normalize, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
+// AVS_WORKSPACE lets a trusted harness copy of these scripts render someone else's workspace (evals).
+export const HARNESS = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
+export const REPO = process.env.AVS_WORKSPACE ? resolve(process.env.AVS_WORKSPACE) : HARNESS;
 
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8', '.css': 'text/css', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml',

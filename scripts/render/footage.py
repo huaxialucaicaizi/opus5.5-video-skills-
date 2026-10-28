@@ -91,18 +91,18 @@ def cmd_subs(a):
     if a.burn:
         style = f"FontName={a.font},FontSize={a.fontsize},Outline=2,Shadow=0,MarginV=60"
         sub = a.subs.replace('\\', '/').replace(':', '\\:').replace("'", "\\'")
-        sh(['ffmpeg', '-y', '-v', 'error', '-i', a.input, '-vf', f"subtitles='{sub}':force_style='{style}'", *ENC_V, '-c:a', 'copy', a.o])
+        sh(['ffmpeg', '-y', '-v', 'error', '-i', a.input, '-vf', f"subtitles='{sub}':force_style='{style}'", *ENC_V, '-c:a', 'copy', a.o])  # ENC_V already sets +faststart
     else:
-        sh(['ffmpeg', '-y', '-v', 'error', '-i', a.input, '-i', a.subs, '-map', '0', '-map', '1', '-c', 'copy', '-c:s', 'mov_text',
+        sh(['ffmpeg', '-y', '-v', 'error', '-i', a.input, '-i', a.subs, '-map', '0', '-map', '1', '-c', 'copy', '-c:s', 'mov_text', '-movflags', '+faststart',
             '-metadata:s:s:0', f'language={a.lang}', a.o])
 
 def cmd_audio(a):
     guard(a.input, a.o)
     if a.mode == 'replace':
-        sh(['ffmpeg', '-y', '-v', 'error', '-i', a.input, '-i', a.audio, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', *ENC_A, '-shortest', a.o])
+        sh(['ffmpeg', '-y', '-v', 'error', '-i', a.input, '-i', a.audio, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', *ENC_A, '-shortest', '-movflags', '+faststart', a.o])
     else:
         fc = f"[1:a]volume={a.music_db}dB[m];[0:a][m]amix=inputs=2:duration=first:normalize=0[a]"
-        sh(['ffmpeg', '-y', '-v', 'error', '-i', a.input, '-i', a.audio, '-filter_complex', fc, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', *ENC_A, a.o])
+        sh(['ffmpeg', '-y', '-v', 'error', '-i', a.input, '-i', a.audio, '-filter_complex', fc, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', *ENC_A, '-movflags', '+faststart', a.o])
 
 def cmd_frames(a):
     Path(a.o).mkdir(parents=True, exist_ok=True)
@@ -115,7 +115,7 @@ def cmd_loudnorm(a):
     m = json.loads(re.findall(r'\{[^{}]*"input_i"[^{}]*\}', p.stderr)[-1])
     af = (f"loudnorm=I={a.lufs}:TP=-1.5:LRA=11:measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}:"
           f"measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
-    sh(['ffmpeg', '-y', '-v', 'error', '-i', a.input, '-af', af, '-c:v', 'copy', *ENC_A, '-t', str(probe(a.input)['duration']), a.o])
+    sh(['ffmpeg', '-y', '-v', 'error', '-i', a.input, '-af', af, '-c:v', 'copy', *ENC_A, '-movflags', '+faststart', '-t', str(probe(a.input)['duration']), a.o])
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)

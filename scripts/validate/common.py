@@ -5,7 +5,9 @@ A P0 'fail' blocks delivery. 'warn' is used for P2 failures and soft findings.
 import json, re
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
+import os
+REPO = Path(__file__).resolve().parents[2]            # harness: schemas always come from here
+COMPONENTS_ROOT = Path(os.environ['AVS_WORKSPACE']).resolve() if os.environ.get('AVS_WORKSPACE') else REPO  # whose scenes to check
 
 def check(cid, level, ok, title, detail='', soft=False):
     status = 'pass' if ok else ('warn' if soft or level == 'P2' else 'fail')
@@ -37,7 +39,7 @@ def reading_time(text, style):
     return max(r['min_text_hold_s'], zh / r['zh_chars_per_s'] + en / r['en_words_per_s'])
 
 def registered_components():
-    idx = REPO / 'components/html-canvas/scenes/index.js'
+    idx = COMPONENTS_ROOT / 'components/html-canvas/scenes/index.js'
     if not idx.exists(): return None
     return set(re.findall(r"^\s*'([a-z0-9-]+)'\s*:", idx.read_text(), re.M))
 
