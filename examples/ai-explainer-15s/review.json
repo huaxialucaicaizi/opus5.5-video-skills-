@@ -1,0 +1,17 @@
+{
+  "reviewer": "claude-opus-5.5 (same session as the builder — not an independent review)",
+  "reviewed_at": "2026-10-28",
+  "method": "contact sheet (16 auto times) + per-seam strips (4 frames per seam at 0.1 s) + full-res crops of keyframes + 4 frames extracted from the encoded MP4",
+  "iterations": [
+    "v1: everything too small for a phone; '，' token started a new row; s5 headline orphaned one character -> bigger type scale, punctuation-aware wrap, fit-to-width headline",
+    "v2: validators flagged S3 (note held 0.9 s < 1.0 s), V1 (captions 2 px above safe area under camera push; s3 note 33 px into bottom UI zone; s5 headline at side margins) -> retimed and moved",
+    "v3: seam strips showed a ~0.25 s near-empty gap at 2.50 s (scene self-fade + transition double fade) and double exposure in push/fade -> composition owns transitions, staged out/in"
+  ],
+  "checks": [
+    { "id": "M1", "status": "pass", "note": "核心说法正确（逐 token 预测、按概率选择、接上再预测）。两处简化已在画面标注：token 编号与概率均写了「仅为示意」。另有未标注的简化：真实模型并不总是选概率最高的词（可能采样），中文分词方式也因模型而异——15 秒科普可接受，若做系列可在后续视频补充。", "evidence": ["out/keyframes/t5_37.png", "out/keyframes/t9_37.png"] },
+    { "id": "M2", "status": "pass", "note": "5 个场景首末帧都有可见变化：标题升起+下划线、句子裂成 token、概率条增长并选中、句子逐词变长、结论与术语徽章出现。", "evidence": ["out/contact_sheet.jpg"] },
+    { "id": "M3", "status": "pass", "note": "每个关键帧都只有一个主焦点。小瑕疵：s4 七个 token 必须折成两行（今天天气真 / 好，适合出门），断句不影响理解。", "evidence": ["out/keyframes/t12_37.png"] },
+    { "id": "M4", "status": "pass", "note": "未出现禁用清单中的效果；全片一种强调色（橙）+ 一种辅助数据色（蓝）；字体与圆角一致。", "evidence": ["out/contact_sheet.jpg"] },
+    { "id": "M5", "status": "warn", "note": "结尾用完整句子作为回顾行，呼应了中段的母题；但没有直接回扣开头的「说话」二字。可把结论改为「AI 就是这样“说话”的」。", "evidence": ["out/keyframes/t14_87.png"] }
+  ]
+}

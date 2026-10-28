@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Video Player</title>
+<link rel="icon" href="data:,">
+<style>
+  :root { color-scheme: dark; }
+  html, body { margin: 0; background: #08090b; color: #ddd; font: 14px/1.4 system-ui, sans-serif; }
+  body.render { overflow: hidden; }
+  #wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px; }
+  body.render #wrap { padding: 0; }
+  canvas { max-height: 80vh; max-width: 100%; height: auto; background: #000; }
+  body.render canvas { max-height: none; }
+  #bar { display: flex; gap: 10px; align-items: center; width: min(720px, 100%); }
+  #bar input { flex: 1; }
+  body.render #bar { display: none; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="c"></canvas>
+  <div id="bar"><button id="play">▶</button><input id="scrub" type="range" min="0" step="0.001" value="0"><span id="time">0.00</span></div>
+</div>
+<script type="module">
+// Contract consumed by scripts/render/*.mjs and scripts/validate/*.mjs:
+//   window.__video = { ready, meta, seek(t), frame(t, type, q) -> dataURL, layout(t), sceneAt(t), error }
+// Query: ?project=<dir relative to server root>  (expects storyboard.json; style path inside it is relative to that dir)
+//        &render   (hide UI)   &t=<seconds>  (jump)
+import { createComposition } from './engine.js';
+import { scenes } from './scenes/index.js';
+
+const q = new URLSearchParams(location.search);
+if (q.has('render')) document.body.classList.add('render');
+const V = (window.__video = { ready: false, error: null });
+
+async function boot() {
+  const project = (q.get('project') || '').replace(/\/$/, '');
+  if (!project) throw new Error('missing ?project=');
+  const sbUrl = `/${project}/storyboard.json`;
+  const storyboard = await (await fetch(sbUrl)).json();
+  const styleUrl = new URL(storyboard.style || '../../templates/visual-style/style.default.json', location.origin + sbUrl).href;
+  const style = await (await fetch(styleUrl)).json();
+
+  // Fonts must be resolved before the first frame or text metrics change mid-render.
+  const stack = style.typography.font_stack.map(f => `"${f}"`).join(',');
+  await Promise.all([400, 600, 800, 900].map(w => document.fonts.load(`${w} 40px ${stack}`, '测试AIabc0')));
+  await document.fonts.ready;
+
+  const makeCanvas = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+  const comp = createComposition({ storyboard, style, scenes, makeCanvas });
+  const c = document.getElementById('c');
+  c.width = comp.meta.width; c.height = comp.meta.height;
+  const ctx = c.getContext('2d');
+
+  V.meta = { ...comp.meta, project, fonts: style.typography.font_stack };
+  V.seek = t => { comp.draw(ctx, t); return true; };
+  V.frame = (t, type = 'image/png', quality = 0.95) => { comp.draw(ctx, t); return c.toDataURL(type, quality); };
+  // Motion blur: average N subframes spread over one frame interval (box shutter, 180°).
+  V.frameBlur = (t, n, type = 'image/jpeg', quality = 0.95) => {
+    const W = c.width, H = c.height, acc = new Float32Array(W * H * 4), dt = 1 / comp.meta.fps / 2;
+    for (let i = 0; i < n; i++) {
+      comp.draw(ctx, t + (n === 1 ? 0 : (i / (n - 1) - 0.5) * dt));
+      const d = ctx.getImageData(0, 0, W, H).data;
+      for (let j = 0; j < d.length; j++) acc[j] += d[j];
+    }
+    const img = ctx.createImageData(W, H);
+    for (let j = 0; j < acc.length; j++) img.data[j] = acc[j] / n;
+    ctx.putImageData(img, 0, 0);
+    return c.toDataURL(type, quality);
+  };
+  V.layout = t => comp.layout(t);
+  V.sceneAt = t => comp.sceneAt(t);
+  V.inTransition = t => comp.inTransition(t);
+  V.sheet = (times, cols, w) => {
+    const h = Math.round(w * comp.meta.height / comp.meta.width), rows = Math.ceil(times.length / cols), pad = 8, lab = 26;
+    const s = makeCanvas(cols * (w + pad) + pad, rows * (h + pad + lab) + pad), sx = s.getContext('2d');
+    sx.fillStyle = '#222'; sx.fillRect(0, 0, s.width, s.height);
+    times.forEach((t, i) => {
+      comp.draw(ctx, t);
+      const x = pad + (i % cols) * (w + pad), y = pad + Math.floor(i / cols) * (h + pad + lab);
+      sx.drawImage(c, x, y + lab, w, h);
+      sx.fillStyle = '#eee'; sx.font = '600 18px monospace';
+      sx.fillText(`t=${t.toFixed(2)}s  ${comp.sceneAt(t)}`, x + 4, y + 19);
+    });
+    return s.toDataURL('image/jpeg', 0.9);
+  };
+  V.ready = true;
+
+  // Interactive preview (not used when rendering).
+  const scrub = document.getElementById('scrub'), time = document.getElementById('time'), play = document.getElementById('play');
+  scrub.max = comp.meta.duration;
+  let playing = false, t0 = 0, base = 0;
+  const show = t => { V.seek(t); scrub.value = t; time.textContent = t.toFixed(2); };
+  scrub.oninput = () => { playing = false; show(+scrub.value); };
+  play.onclick = () => { playing = !playing; base = +scrub.value; t0 = performance.now(); if (playing) requestAnimationFrame(tick); };
+  function tick(now) { if (!playing) return; const t = (base + (now - t0) / 1000) % comp.meta.duration; show(t); requestAnimationFrame(tick); }
+  show(+(q.get('t') || 0));
+}
+boot().catch(e => { V.error = String(e && e.stack || e); console.error(e); });
+</script>
+</body>
+</html>

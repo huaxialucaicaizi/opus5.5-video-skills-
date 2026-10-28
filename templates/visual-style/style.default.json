@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "name": "explainer-dark-vertical",
+  "description": "Default style for short vertical AI explainers. Calm dark ground, one warm accent, one cool support colour, big type.",
+  "reference_width": 1080,
+  "palette": {
+    "bg": "#0F1115",
+    "bg_raised": "#181B22",
+    "line": "#2A2F3A",
+    "text": "#F2EFE9",
+    "text_muted": "#9AA0AC",
+    "accent": "#FF7A45",
+    "support": "#5AB4FF",
+    "success": "#5BD19A"
+  },
+  "typography": {
+    "font_stack": [
+      "Noto Sans CJK SC",
+      "PingFang SC",
+      "Source Han Sans SC",
+      "Microsoft YaHei",
+      "sans-serif"
+    ],
+    "mono_stack": [
+      "JetBrains Mono",
+      "Noto Sans Mono CJK SC",
+      "monospace"
+    ],
+    "scale_px": {
+      "title": 132,
+      "headline": 100,
+      "body": 68,
+      "caption": 46,
+      "label": 38
+    },
+    "weight": {
+      "title": 900,
+      "headline": 800,
+      "body": 600,
+      "caption": 500,
+      "label": 600
+    },
+    "min_px": 34,
+    "line_height": 1.25,
+    "max_chars_per_line_zh": 12
+  },
+  "layout": {
+    "safe_area": {
+      "top": 220,
+      "bottom": 360,
+      "left": 72,
+      "right": 72
+    },
+    "safe_area_note": "9:16 platforms overlay UI: status bar & title at top, caption/buttons at bottom and right. Keep all text inside.",
+    "grid_unit": 24,
+    "corner_radius": 28
+  },
+  "motion": {
+    "default_ease": "easeOutCubic",
+    "enter_s": 0.45,
+    "exit_s": 0.3,
+    "stagger_s": 0.08,
+    "spring": {
+      "stiffness": 170,
+      "damping": 22,
+      "max_overshoot": 0.06
+    },
+    "camera": "slow push or drift in every scene; never fully static"
+  },
+  "readability": {
+    "zh_chars_per_s": 6,
+    "en_words_per_s": 2.8,
+    "min_text_hold_s": 0.8,
+    "min_read_s": 0.6,
+    "min_contrast_ratio": 4.5
+  },
+  "banned": [
+    "particle bursts",
+    "lens flares",
+    "RGB split / chromatic aberration",
+    "neon glow on text",
+    "bouncy / elastic easing on text",
+    "camera shake",
+    "stock-template gradients on UI chrome",
+    "more than one accent colour per scene",
+    "text outside the safe area",
+    "full stops at the end of on-screen headlines"
+  ]
+}
