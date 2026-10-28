@@ -1,0 +1,41 @@
+{
+  "reviewer": "claude (Haiku 5.5) — same session as the builder, not an independent review",
+  "reviewed_at": "2026-10-28",
+  "method": "auto checks (validate_spec, layout, determinism, probe, QA) + contact sheet of the rendered frames + three seam/motion strips (2.4–3.3 s, 7.4–8.2 s, 3.6–6.3 s) + six frames extracted from the encoded MP4 (out/review_mp4.jpg) + full-res keyframes t5_00 and t8_77",
+  "iterations": [
+    "v1: 2-line flow labels wrapped badly ('问题' sub orphaned '题'; '相/关段落' split mid-word) -> explicit line breaks in the rag-flow sub-labels",
+    "v2: seam 7.5 s showed ~0.3 s of near-empty frames (takeaway headline started 0.5 s into its scene, after the fade-through-background had already removed the flow) -> added optional `delay` param to takeaway (default 0.5, backward compatible); set delay 0.1 for this scene so headline overlaps the outgoing fade"
+  ],
+  "checks": [
+    {
+      "id": "M1",
+      "status": "warn",
+      "note": "基本流程正确：问题 → 检索相关段落 → 段落与问题一起交给模型 → 带依据的回答，与 RAG 的通用描述一致。需要注意的简化：(1) 开场「AI 回答前先去查资料」暗示所有回答都会先检索，实际上很多模型回答并不经过检索，这是科普口径，可接受但不完整；(2) 结论副句「回答有依据、可追溯」依赖系统是否输出引用来源，画面没有说明 RAG 不保证回答绝对正确（must_avoid 中已列出）。无示意数据，所以不需要「示意」标注。",
+      "evidence": ["out/review_mp4.jpg", "out/keyframes/t8_77.png"]
+    },
+    {
+      "id": "M2",
+      "status": "pass",
+      "note": "每镜都有可见变化：s1 标题两行升起、「查资料」被下划线扫过；s2 四个方框依次弹出，箭头逐段画出；s3 结论标题与副句浮现，最后「检索增强生成」徽章弹出。与 storyboard 的 event 一致。",
+      "evidence": ["out/contact_sheet.jpg", "out/strip_flow.jpg", "out/review_mp4.jpg"]
+    },
+    {
+      "id": "M3",
+      "status": "pass",
+      "note": "每个关键帧一个焦点：s1 的「查资料」，s2 的橙色「检索」框（流程的核心一步），s3 的结论标题。方框副标题为 38 px，1920×1080 下清晰可读，但在手机上会偏小，这是横屏的固有代价。",
+      "evidence": ["out/keyframes/t5_00.png", "out/keyframes/t8_77.png"]
+    },
+    {
+      "id": "M4",
+      "status": "pass",
+      "note": "没有禁用效果（无粒子、辉光、震动、弹性缓动）。配色沿用默认样式：深色底、橙色强调、蓝色辅助；每个场景只有一种强调色。字体与圆角全片一致。",
+      "evidence": ["out/contact_sheet.jpg", "out/keyframes/t5_00.png"]
+    },
+    {
+      "id": "M5",
+      "status": "pass",
+      "note": "首尾呼应：开场「AI 回答前，先去查资料」，结尾「先检索资料，再据此回答」，母题「先查资料」前后相接。",
+      "evidence": ["out/keyframes/t8_77.png", "out/review_mp4.jpg"]
+    }
+  ]
+}

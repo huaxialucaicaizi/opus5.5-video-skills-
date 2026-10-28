@@ -1,0 +1,16 @@
+{
+  "reviewer": "claude-sonnet-5-5 (same session as the builder — not an independent review)",
+  "reviewed_at": "2026-10-28",
+  "method": "contact sheet (13 auto times) + seam strips at 2.5 / 6.5 / 9.5 s (6 frames each, out/strip_*.jpg) + 6 frames extracted from the encoded MP4 (out/review_mp4.jpg)",
+  "iterations": [
+    "v1: 4-char option label '查无此人' clipped at the left edge and the bar block ran past the bottom safe area (V1 fail) -> added optional labelW param to prob-bars, shortened label, 3 options, shorter context chips",
+    "v2: V1/V2/V3/T4 all pass; seams show staged out/in with no empty gap or double exposure"
+  ],
+  "checks": [
+    { "id": "M1", "status": "pass", "note": "核心说法正确：语言模型按概率逐词预测，通顺不等于真实，重要信息需核实。画面中的论文作者、概率和「2019年」均为虚构示意，概率条下标注「概率仅为示意」，循环场景标注「（示意）」。简化：真实模型不一定总选最高概率（可能采样），幻觉成因也不只是概率选词（训练数据、缺少事实检索等）——15 秒科普可接受。", "evidence": ["out/keyframes/t5_20.png", "out/review_mp4.jpg"] },
+    { "id": "M2", "status": "pass", "note": "4 个场景首末帧均有可见变化：标题升起+下划线+光标；问号被概率最高的「张伟」填上；句子逐词接长到「提出」；回顾行→「通顺 ≠ 真实」→「重要信息要核实」徽章弹出。", "evidence": ["out/contact_sheet.jpg"] },
+    { "id": "M3", "status": "pass", "note": "每个关键帧一个主焦点。小瑕疵：s3 末尾 7 个块折成 3 行；s4 回顾行字号小，结论标题也偏小，但均在安全区内，手机上可读。", "evidence": ["out/contact_sheet.jpg", "out/review_mp4.jpg"] },
+    { "id": "M4", "status": "pass", "note": "无禁用效果；全片一种强调色（橙）+ 一种辅助色（蓝）；字体、圆角一致。", "evidence": ["out/contact_sheet.jpg"] },
+    { "id": "M5", "status": "warn", "note": "结尾用同一句话作回顾行呼应中段，并回答了开头的问题；但没有直接回扣开头的「胡说」二字，可把徽章改成「别全信，要核实」。", "evidence": ["out/strip_9.5.jpg"] }
+  ]
+}

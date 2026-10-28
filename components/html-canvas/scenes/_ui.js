@@ -20,7 +20,8 @@ export function chip(f, label, x, y, o = {}) {
   // Text is drawn outside the alpha save so its recorded alpha is the real one.
   ctx.save();
   ctx.translate(x, y); ctx.scale(s, s); ctx.translate(-x, -y);
-  f.text(label, x, y, { role, size: o.size, weight: o.weight, align: 'center', baseline: 'middle', color: o.color || pal.text, alpha, id: o.id, mono: o.mono });
+  const parent = o.id ? f.box(`${o.id}:box`, x - w / 2, y - h / 2, w, h, alpha) : undefined;
+  f.text(label, x, y, { role, size: o.size, weight: o.weight, align: 'center', baseline: 'middle', color: o.color || pal.text, alpha, id: o.id, mono: o.mono, parent });
   ctx.restore();
   return { x: x - w / 2, y: y - h / 2, w, h };
 }

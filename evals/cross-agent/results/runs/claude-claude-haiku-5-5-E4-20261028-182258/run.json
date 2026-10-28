@@ -1,0 +1,21 @@
+{
+  "agent": "claude",
+  "model_requested": "claude-haiku-5-5",
+  "task": "E4",
+  "exit_code": 0,
+  "wall_s": 59,
+  "toolkit_commit": "4782e06",
+  "score": 100.0,
+  "components": {
+    "planted_fixed": 70.0,
+    "intent": 30.0
+  },
+  "p0_fail": [],
+  "total_cost_usd": 0.02295138,
+  "num_turns": 21,
+  "duration_ms": 57915,
+  "is_error": false,
+  "models_used": [
+    "claude-haiku-5-5"
+  ]
+}

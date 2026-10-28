@@ -1,0 +1,22 @@
+{
+  "reviewer": "claude-sonnet-5-5 (independent: did not build this video)",
+  "reviewed_at": "2026-10-28",
+  "method": "跑了全部自动检查；看了 out/contact_sheet.jpg、out/review_seams.jpg（四个场景切点各 4 帧）、out/review_mp4.jpg 与 out/review_s4.jpg（从成片 MP4 抽帧）、关键帧 t9_37/t11_00/t14_87，并核对 out/layout.json 的文字框。",
+  "checks": [
+    {"id": "M1", "status": "fail",
+     "note": "s3_probs（5.5–9.5s）四个候选词概率 62%+30%+20%+9% = 121%，超过 100%，同一分布不可能成立。虽有「概率仅为示意」，但示意数据也不能自相矛盾，会教错「概率分布」。另：s2 的 token 编号和 s3 的概率已标注示意（通过）；「一次只猜一个词」把 token 说成「词」是可接受的科普简化，建议保持；全片没有出现「AI 理解/思考」的说法（通过）。正确做法：让展示的概率之和 ≤ 100%（如 62/25/9/4），或加一根「其他」条。",
+     "evidence": ["out/keyframes/t9_37.png", "out/keyframes/t7_50.png", "storyboard.json#s3_probs.params.options"]},
+    {"id": "M2", "status": "pass",
+     "note": "5 个场景的事件都看得到：s1 标题升起、「说话」下划线、光标闪烁（t1.27→2.37）；s2 句子裂成 3 个 token 方块、编号浮现（t2.67→4.00→5.37）；s3 四根条依次长出、「好」被框住、其余变暗、问号槽被填上（t7.50→8.20→9.37）；s4 每步先出「?」再落新词，成片抽帧 10.3/10.9/11.5/11.9s 显示句子逐步变长；s5 回顾行、结论、徽章依次出现。预览与 MP4 抽帧一致。",
+     "evidence": ["out/contact_sheet.jpg", "out/review_mp4.jpg", "out/review_s4.jpg"]},
+    {"id": "M3", "status": "warn",
+     "note": "多数镜头焦点清楚（s1 标题、s2 token 方块、s5 结论+徽章）。问题：(1) s3 底部示意说明（8.4–9.5s）三行小灰字、对比度低，且只停留约 1.1s，没人读得完；(2) s4 第 3 个词起句子换行，方块布局跳动，下方「最可能」读数的 y 从 975 跳到 1142，视线要重新找；(3) s5 回顾行只有约 52px 且偏暗，作为首尾呼应略弱。",
+     "evidence": ["out/keyframes/t9_37.png", "out/review_s4.jpg", "out/keyframes/t14_87.png"]},
+    {"id": "M4", "status": "fail",
+     "note": "违反风格禁用清单：(a)「more than one accent colour per scene」——s2 的「天气」方块用蓝色描边、s3 的概率条用蓝色而「好」用橙色、s4 的「一遍又一遍」是蓝色，同屏橙+蓝两种强调色；(b)「text outside the safe area」——s3 示意说明文字框 [68,1460,1012,1630] 超出安全区 [72,220,1008,1560]，「好」高亮条左右边缘约 38–1042px 也出了左右安全边。未发现粒子、辉光、弹性缓动、标题句号。字体与配色体系其余部分一致。",
+     "evidence": ["out/keyframes/t5_67.png", "out/keyframes/t9_37.png", "out/keyframes/t11_00.png", "out/layout.json"]},
+    {"id": "M5", "status": "pass",
+     "note": "开场被提问的「今天天气真…」在 s2 被切开、s3 被补全、s5 以回顾行「今天天气真好，适合出门」回来，母题完整；结尾术语徽章「自回归生成」点明主题。小遗憾：开场的闪烁光标没有在结尾呼应。",
+     "evidence": ["out/keyframes/t2_37.png", "out/keyframes/t14_87.png"]}
+  ]
+}

@@ -147,7 +147,7 @@ function makeFrameApi(ctx, comp, t, scene, lt, dur, layoutSink) {
     h: H - (style.layout.safe_area.top + style.layout.safe_area.bottom) * u,
   };
 
-  function record(id, str, role, px, x, y, w, h, alpha) {
+  function record(id, str, role, px, x, y, w, h, alpha, extra) {
     if (!layoutSink || alpha < 0.05) return;
     const m = ctx.getTransform();
     const pts = [[x, y], [x + w, y], [x, y + h], [x + w, y + h]].map(([px_, py]) => [m.a * px_ + m.c * py + m.e, m.b * px_ + m.d * py + m.f]);
@@ -158,6 +158,7 @@ function makeFrameApi(ctx, comp, t, scene, lt, dur, layoutSink) {
       px: +(px * sx).toFixed(1),
       x: +Math.min(...xs).toFixed(1), y: +Math.min(...ys).toFixed(1),
       w: +(Math.max(...xs) - Math.min(...xs)).toFixed(1), h: +(Math.max(...ys) - Math.min(...ys)).toFixed(1),
+      ...(extra || {}),
     });
   }
 
@@ -192,8 +193,13 @@ function makeFrameApi(ctx, comp, t, scene, lt, dur, layoutSink) {
       ctx.fillText(l, lx, by + ascent + i * lh);
     });
     ctx.restore();
-    record(o.id || `${scene.id}:${str.slice(0, 12)}`, str, role, px, bx, by, w, h, alpha * (o.recordAlpha ?? 1));
+    record(o.id || `${scene.id}:${str.slice(0, 12)}`, str, role, px, bx, by, w, h, alpha * (o.recordAlpha ?? 1), o.parent ? { parent: o.parent } : null);
     return { x: bx, y: by, w, h, lines };
+  }
+  // box(id, x, y, w, h, alpha): declare a visual container for layout QA. Returns id for text({parent}).
+  function box(id, x, y, w, h, alpha = 1) {
+    record(id, '', 'container', 0, x, y, w, h, alpha, { kind: 'container' });
+    return id;
   }
   function measure(str, o = {}) {
     const role = o.role || 'body';
@@ -217,7 +223,7 @@ function makeFrameApi(ctx, comp, t, scene, lt, dur, layoutSink) {
   return {
     ctx, t, lt, dur, W, H, u, style, pal: style.palette, safe, scene, exit,
     bpm: comp.storyboard.bpm, beatOffset: comp.storyboard.beat_offset_s || 0,
-    text, measure, font, camera,
+    text, box, measure, font, camera,
     env: (a, b, i, o) => envelope(lt, a, b, i ?? style.motion.enter_s, o ?? style.motion.exit_s),
   };
 }

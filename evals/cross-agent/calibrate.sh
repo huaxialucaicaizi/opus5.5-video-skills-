@@ -14,9 +14,9 @@ golden() {  # $1 task, $2 workspace
   local T=$1 W=$2
   case "$T" in
   E1)  P=$W/projects/e1-how-ai-talks; mkdir -p "$P"
-       python3 - "$W" <<'EOF'
+       python3 - "$W" "$AVS" <<'EOF'
 import json, sys, pathlib
-w = pathlib.Path(sys.argv[1]); src = w / 'examples/ai-explainer-15s'; dst = w / 'projects/e1-how-ai-talks'
+w = pathlib.Path(sys.argv[1]); src = pathlib.Path(sys.argv[2]) / 'examples/ai-explainer-15s'; dst = w / 'projects/e1-how-ai-talks'  # fixture hides the workspace copy
 for name in ('storyboard.json', 'task.json', 'review.json'):
     d = json.loads((src / name).read_text())
     if 'task_id' in d: d['task_id'] = 'e1-how-ai-talks'

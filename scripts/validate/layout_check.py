@@ -3,7 +3,8 @@
 
     python3 scripts/validate/layout_check.py <project_dir> [--layout <file>]
 
-V1 safe area, V2 minimum font size, V3 no overlapping text. Only "settled" samples are judged for V1/V3
+V1 safe area, V2 minimum font size, V3 no overlapping text, V4 reserved regions, V5 text stays inside its
+container (boxes declared with f.box / chip). Only "settled" samples are judged for V1/V3
 (not inside a transition), and only boxes with effective alpha ≥ 0.5.
 """
 import argparse, sys
@@ -31,8 +32,16 @@ def run(project, layout_path=None):
     min_px = style['typography']['min_px'] * u
     tol = 2 * u
 
-    out_safe, small, ovl = {}, {}, {}
+    out_safe, small, ovl, spill = {}, {}, {}, {}
+    for smp in L['samples']:  # split declared containers from text boxes
+        smp['containers'] = {b['id']: b for b in smp['boxes'] if b.get('kind') == 'container'}
+        smp['boxes'] = [b for b in smp['boxes'] if b.get('kind') != 'container']
     settled = [s for s in L['samples'] if not s.get('transition')]
+    for s in settled:
+        for b in s['boxes']:
+            c = s['containers'].get(b.get('parent')) if b.get('parent') else None
+            if c and b['alpha'] >= VIS and (b['x'] < c['x'] - tol or b['y'] < c['y'] - tol or b['x'] + b['w'] > c['x'] + c['w'] + tol or b['y'] + b['h'] > c['y'] + c['h'] + tol):
+                spill.setdefault(b['id'], (s['t'], f"text {round(b['w'])}x{round(b['h'])} vs box {round(c['w'])}x{round(c['h'])}"))
     for s in L['samples']:
         for b in s['boxes']:
             if b['alpha'] < VIS: continue
@@ -59,6 +68,7 @@ def run(project, layout_path=None):
         (check('V4.reserved', 'P0', not res_hits, f"text stays out of {len(sb['reserved_regions'])} reserved region(s)", fmt(res_hits))
          if sb.get('reserved_regions') else skip('V4.reserved', 'P0', 'text stays out of reserved regions', 'none declared')),
         check('V3.overlap', 'P1', not ovl, 'no overlapping text boxes', '; '.join(f'{a} × {b} @t={t}' for (a, b), t in list(ovl.items())[:8])),
+        check('V5.contained', 'P1', not spill, f"text stays inside its container ({sum(len(s['containers']) > 0 for s in L['samples'])} samples declare containers)", fmt(spill)),
     ]
 
 def main():

@@ -15,11 +15,14 @@
 | S2 | P1 | auto | reads | 每个 read 在所属场景内、互不重叠、≥ `min_read_s` |
 | S3 | P1 | auto | 阅读速度 | 每段文字停留 ≥ `max(min_text_hold_s, 字数/zh_chars_per_s)` |
 | S4 | P2 | auto | 卡点 | 有 bpm 时场景切点距最近拍 ≤ 1 帧 |
+| S7 | P0 | auto | 风格适配画幅 | 按画幅缩放后安全区宽 ≥ 60%、高 ≥ 50%（9:16 风格用于 16:9 会被拦下） |
 | S5 | P1 | auto | 转场 | 每个场景都有 `transition_in`（`none` 需写 note 说明理由） |
 | L1 | P0 | auto | 素材许可 | 所有 `assets` 有作者与许可，许可不为 `unknown` |
 | V1 | P0 | auto | 安全区 | 渲染期上报的文字框全部在安全区内 |
 | V2 | P1 | auto | 字号 | 所有文字 ≥ `min_px`（按分辨率缩放后） |
 | V3 | P1 | auto | 文字重叠 | 同一帧内文字框互不重叠 |
+| V4 | P0 | auto | 保留区域 | 文字不进入 storyboard `reserved_regions`（如后期叠加的画中画） |
+| V5 | P1 | auto | 文字不溢出容器 | 用 `f.box()`/`chip()` 声明的方框内文字不越界（未声明容器的自定义组件不在检查范围） |
 | M1 | P0 | manual | 信息正确 | 科普内容无事实错误，数字/术语准确 |
 | M2 | P1 | manual | 每镜有事件 | 首帧与末帧之间有可见变化，且与 `event` 描述一致 |
 | M3 | P1 | manual | 焦点清晰 | 关键帧里一眼能看出该看哪 |

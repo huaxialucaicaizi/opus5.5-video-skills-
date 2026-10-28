@@ -82,8 +82,11 @@
     "bouncy / elastic easing on text",
     "camera shake",
     "stock-template gradients on UI chrome",
-    "more than one accent colour per scene",
+    "more than one accent colour per scene (the support colour is for data/secondary marks and does not count as an accent)",
     "text outside the safe area",
     "full stops at the end of on-screen headlines"
+  ],
+  "formats": [
+    "9:16"
   ]
 }

@@ -414,7 +414,7 @@
           "适合",
           "出门"
         ],
-        "kicker": "所以",
+        "kicker": "这就是 AI 的“说话”",
         "headline": "AI 一次只猜一个词",
         "sub": "猜完接上，再猜下一个",
         "term": "自回归生成",
@@ -428,7 +428,7 @@
           "role": "caption"
         },
         {
-          "text": "所以",
+          "text": "这就是 AI 的“说话”",
           "start": 12.85,
           "end": 15,
           "role": "caption"

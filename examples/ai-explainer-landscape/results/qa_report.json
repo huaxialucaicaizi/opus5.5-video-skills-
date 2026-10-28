@@ -1,0 +1,286 @@
+{
+  "task_id": "ai-explainer-landscape",
+  "generated_at": "2026-10-28T19:15:14+08:00",
+  "agent": "claude-opus-5.5",
+  "reviewer": "claude-opus-5.5 (same session as the builder — not an independent review)",
+  "verdict": "PASS",
+  "summary": {
+    "auto": {
+      "p0_fail": 0,
+      "fail": 0,
+      "warn": 0,
+      "pass": 24,
+      "skip": 1
+    },
+    "manual_pending": 0
+  },
+  "video": {
+    "path": "out/ai-explainer-landscape.mp4",
+    "duration": 15.0,
+    "fps": 30.0,
+    "width": 1920,
+    "height": 1080,
+    "size_bytes": 3212970,
+    "bitrate": 1713584,
+    "audio": true,
+    "black": []
+  },
+  "artifacts": {
+    "contact_sheet": "out/contact_sheet.jpg",
+    "keyframes": [
+      "out/keyframes/t0_17.png",
+      "out/keyframes/t1_27.png",
+      "out/keyframes/t2_37.png",
+      "out/keyframes/t2_67.png",
+      "out/keyframes/t4_00.png",
+      "out/keyframes/t5_37.png",
+      "out/keyframes/t5_67.png",
+      "out/keyframes/t7_50.png",
+      "out/keyframes/t8_20.png",
+      "out/keyframes/t9_37.png",
+      "out/keyframes/t9_67.png",
+      "out/keyframes/t11_00.png",
+      "out/keyframes/t12_37.png",
+      "out/keyframes/t12_67.png",
+      "out/keyframes/t13_77.png",
+      "out/keyframes/t14_87.png"
+    ]
+  },
+  "checks": {
+    "spec": [
+      {
+        "id": "S1.schema",
+        "level": "P0",
+        "status": "pass",
+        "title": "storyboard matches schema",
+        "detail": ""
+      },
+      {
+        "id": "S1.task",
+        "level": "P0",
+        "status": "pass",
+        "title": "task.json matches schema",
+        "detail": ""
+      },
+      {
+        "id": "S1.match",
+        "level": "P0",
+        "status": "pass",
+        "title": "storyboard format matches task",
+        "detail": "mismatch: []"
+      },
+      {
+        "id": "S1.contiguous",
+        "level": "P0",
+        "status": "pass",
+        "title": "scenes are contiguous and cover the duration",
+        "detail": ""
+      },
+      {
+        "id": "S1.scene_len",
+        "level": "P1",
+        "status": "pass",
+        "title": "every scene ≥ 1.0 s",
+        "detail": ""
+      },
+      {
+        "id": "S1.ids",
+        "level": "P0",
+        "status": "pass",
+        "title": "scene ids unique",
+        "detail": "['s1_hook', 's2_tokens', 's3_probs', 's4_loop', 's5_takeaway']"
+      },
+      {
+        "id": "S2.reads",
+        "level": "P1",
+        "status": "pass",
+        "title": "reads inside scene, ≥0.6s, non-overlapping",
+        "detail": ""
+      },
+      {
+        "id": "S3.reading",
+        "level": "P1",
+        "status": "pass",
+        "title": "every on-screen text is held long enough to read",
+        "detail": ""
+      },
+      {
+        "id": "S4.beats",
+        "level": "P2",
+        "status": "pass",
+        "title": "scene cuts land on the beat grid",
+        "detail": ""
+      },
+      {
+        "id": "S5.transitions",
+        "level": "P1",
+        "status": "pass",
+        "title": "every seam (incl. open/close) has a transition",
+        "detail": ""
+      },
+      {
+        "id": "S6.components",
+        "level": "P0",
+        "status": "pass",
+        "title": "all scene components are registered",
+        "detail": "unknown: []; known: ['append-loop', 'kinetic-title', 'prob-bars', 'takeaway', 'token-split']"
+      },
+      {
+        "id": "S7.style_fit",
+        "level": "P0",
+        "status": "pass",
+        "title": "style 'explainer-dark-landscape' fits 1920x1080",
+        "detail": ""
+      },
+      {
+        "id": "L1.licences",
+        "level": "P0",
+        "status": "pass",
+        "title": "every asset has author + known licence",
+        "detail": ""
+      }
+    ],
+    "layout": [
+      {
+        "id": "V1.safe_area",
+        "level": "P0",
+        "status": "pass",
+        "title": "text inside safe area (126/150 settled samples)",
+        "detail": "safe box [140, 90, 1780, 970]; "
+      },
+      {
+        "id": "V2.min_px",
+        "level": "P1",
+        "status": "pass",
+        "title": "font size ≥ 28px",
+        "detail": ""
+      },
+      {
+        "id": "V4.reserved",
+        "level": "P0",
+        "status": "skip",
+        "title": "text stays out of reserved regions",
+        "detail": "none declared"
+      },
+      {
+        "id": "V3.overlap",
+        "level": "P1",
+        "status": "pass",
+        "title": "no overlapping text boxes",
+        "detail": ""
+      },
+      {
+        "id": "V5.contained",
+        "level": "P1",
+        "status": "pass",
+        "title": "text stays inside its container (123 samples declare containers)",
+        "detail": ""
+      }
+    ],
+    "video": [
+      {
+        "id": "T1.duration",
+        "level": "P0",
+        "status": "pass",
+        "title": "duration 15.000s (expected 15s)",
+        "detail": "15.000s"
+      },
+      {
+        "id": "T2.format",
+        "level": "P0",
+        "status": "pass",
+        "title": "1920x1080 @30fps (expected 1920x1080 @30)",
+        "detail": ""
+      },
+      {
+        "id": "T3.codec",
+        "level": "P0",
+        "status": "pass",
+        "title": "H.264 yuv420p, faststart, AAC audio",
+        "detail": ""
+      },
+      {
+        "id": "T5.black",
+        "level": "P1",
+        "status": "pass",
+        "title": "no black segments ≥0.3s (except head/tail fades)",
+        "detail": "[]"
+      },
+      {
+        "id": "T6.frozen",
+        "level": "P1",
+        "status": "pass",
+        "title": "no frozen segments ≥1.0s",
+        "detail": "starts [] durations []"
+      },
+      {
+        "id": "A1.loudness",
+        "level": "P1",
+        "status": "pass",
+        "title": "integrated -14.0 LUFS (target -14±2), true peak -1.5 dBTP (≤ -1)",
+        "detail": ""
+      }
+    ],
+    "determinism": [
+      {
+        "id": "T4.determinism",
+        "level": "P0",
+        "status": "pass",
+        "title": "same t → identical pixels (8 times × 3 renders, 2 pages)",
+        "detail": ""
+      }
+    ],
+    "manual": [
+      {
+        "id": "M1",
+        "level": "P0",
+        "status": "pass",
+        "title": "信息正确：无事实错误，示意数据已标注",
+        "detail": "与竖屏版内容相同；示意数据均有标注。",
+        "evidence": [
+          "out/keyframes/t8_20.png"
+        ]
+      },
+      {
+        "id": "M2",
+        "level": "P1",
+        "status": "pass",
+        "title": "每镜有事件：首末帧有可见变化且与 event 一致",
+        "detail": "5 个场景都有可见事件。",
+        "evidence": [
+          "out/contact_sheet.jpg"
+        ]
+      },
+      {
+        "id": "M3",
+        "level": "P1",
+        "status": "pass",
+        "title": "焦点清晰：关键帧里一眼看出该看哪",
+        "detail": "s3 横屏改为左右分栏，概率条占满右栏高度，可读性正常。其余场景在 16:9 中偏居中、留白较多，但焦点清楚。",
+        "evidence": [
+          "out/keyframes/t7_50.png"
+        ]
+      },
+      {
+        "id": "M4",
+        "level": "P1",
+        "status": "pass",
+        "title": "风格一致：无禁用效果，配色字体一致",
+        "detail": "与竖屏版同一配色与字体；无禁用效果。",
+        "evidence": [
+          "out/contact_sheet.jpg"
+        ]
+      },
+      {
+        "id": "M5",
+        "level": "P2",
+        "status": "pass",
+        "title": "首尾呼应：结尾回扣开头母题",
+        "detail": "结尾回扣「说话」。",
+        "evidence": [
+          "out/keyframes/t14_87.png"
+        ]
+      }
+    ]
+  }
+}

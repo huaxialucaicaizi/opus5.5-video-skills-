@@ -33,16 +33,18 @@ export default function myScene(f, p) {       // f = 帧 API, p = storyboard 里
   f.text(p.title, f.W / 2, f.H * 0.45 + r.dy, { role: 'headline', align: 'center', alpha: r.a * f.exit, maxWidth: f.safe.w, fit: true });
 }
 ```
-然后在 `scenes/index.js` 注册。帧 API `f`：`ctx, t, lt（场景内时间）, dur, W, H, u（按 1080 宽的缩放）, style, pal, safe{ x,y,w,h }, exit, bpm, text(), measure(), font(), camera(), env()`。
+然后在 `scenes/index.js` 注册。帧 API `f`：`ctx, t, lt（场景内时间）, dur, W, H, u（按风格 reference_width 的缩放）, style, pal, safe{ x,y,w,h }, exit, bpm, text(), box(), measure(), font(), camera(), env()`。
 
-**规则**：只从 `t`/`lt` 计算；随机用 `hash()`；文字只用 `f.text()`；不要自己做退场淡出（用 `f.exit`）；不画背景。
+**方框里有字时**（卡片、流程节点、标签）：先 `const id = f.box('my:box', x, y, w, h, alpha)`，再 `f.text(str, ..., { parent: id })`。这样 V5 能检查文字是否溢出方框；`chip()` 已自动这样做。
+
+**规则**：只从 `t`/`lt` 计算；随机用 `hash()`；文字只用 `f.text()`；不要自己做退场淡出（用 `f.exit`）；不画背景；**靠近安全区边缘的内容留 ≥ 3% 余量**（相机推近会放大到中心的距离）；需要支持横屏时按 `W > H` 切换布局（参考 `prob-bars`）。
 
 ## 组件目录（params）
 | 组件 | 用途 | params |
 |---|---|---|
 | `kinetic-title` | 开场标题：标签 + 1–3 行遮罩上升 + 高亮词下划线 + 光标 | `kicker?`, `lines: string[]`, `highlight?: {line, text}`, `cursor?: bool`, `sub?` |
 | `token-split` | 一句话裂成若干块（token/词/步骤），下方可出编号 | `caption`, `tokens: string[]`, `ids?: string[]`, `splitAt?=0.9`, `idsAt?=1.7`, `note?` |
-| `prob-bars` | 上下文 + 问题 + 横向概率条，选中最高项填入问号 | `caption`, `context: string[]`, `question`, `options: [{label, p}]`, `pick`, `pickAt?=2.6`, `note?` |
+| `prob-bars` | 上下文 + 问题 + 横向概率条，选中最高项填入问号（横屏自动左右分栏） | `caption`, `context: string[]`, `question`, `options: [{label, p}]`, `pick`, `pickAt?=2.6`, `note?` |
 | `append-loop` | 自回归/迭代：一行块不断追加，每步先问号再落下 | `caption`, `start: string[]`, `steps: [{token, p}]`, `stepDur?=0.62`, `firstAt?=0.5`, `loopLabel?` |
 | `takeaway` | 结论卡：回顾行 + 结论 + 副句 + 术语徽章 | `recap?: string[]`, `kicker?`, `headline`, `sub?`, `term?`, `termAt?=1.2` |
 

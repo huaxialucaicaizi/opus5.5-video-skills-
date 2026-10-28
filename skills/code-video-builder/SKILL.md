@@ -22,11 +22,11 @@ description: Build and render a code-generated video (HTML canvas or Remotion) f
 1. 每帧只由 `t` 决定。**禁止** `Math.random()`、`Date.now()`、`performance.now()`、`setTimeout/setInterval`、CSS animation/transition、帧间累积状态、逐帧积分的物理。
 2. 随机用 `hash(key)`；弹簧用 `spring()`/`springTo()` 闭式解；关键帧用 `kf()`；入退场用 `envelope()`/`rise()`。
 3. 场景只画自己的内容；背景和转场由 composition 负责。**场景不要自己做退场淡出**（会和转场叠加造成"空帧"），用 `f.exit`。
-4. 所有文字走 `f.text()`：它会记录真实文字框，供安全区/重叠/字号检查。不要用 `ctx.fillText` 直接画文字。
+4. 所有文字走 `f.text()`：它会记录真实文字框，供安全区/重叠/字号检查。不要用 `ctx.fillText` 直接画文字。方框里的文字先 `f.box()` 声明方框，再用 `f.text(..., {parent})`，否则溢出检查（V5）看不到。
 5. 字体先加载再出第一帧（player 已处理）；不要在场景里改 `ctx.font` 后画文字而不经 `f.text()`。
 
 ## 执行步骤
-1. **环境自检**：`bash $AVS/scripts/setup.sh`。缺浏览器/FFmpeg 时停止，报告缺什么（不要换成录屏等不确定方式）。
+1. **环境自检**：`bash $AVS/scripts/setup.sh`。缺浏览器/FFmpeg 时停止，报告缺什么（不要换成录屏等不确定方式）。横屏 16:9 用 `templates/visual-style/style.landscape.json`（默认风格是 9:16 的，S7 会拦下）。
 2. **对照组件**：storyboard 每个 `component` 是否已在 `$AVS/components/html-canvas/scenes/index.js` 注册。缺的组件：
    - 在 `scenes/<name>.js` 写 `export default function (f, params) {...}`，只用 `f`（帧 API）和 `engine.js` 的纯函数；
    - 在 `scenes/index.js` 注册；在 `components/html-canvas/README.md` 记录 params。

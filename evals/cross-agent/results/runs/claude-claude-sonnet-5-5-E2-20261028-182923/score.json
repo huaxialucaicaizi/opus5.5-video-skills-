@@ -1,0 +1,36 @@
+{
+  "components": {
+    "spec": 20.0,
+    "layout": 15.0,
+    "video": 20.0,
+    "determinism": 15,
+    "audio": 5.0,
+    "task": 25.0
+  },
+  "keyword_hits": [
+    true,
+    true,
+    true
+  ],
+  "review_present": true,
+  "p0_fail": [],
+  "fail": [],
+  "video_meta": {
+    "duration": 15.0,
+    "fps": 30.0,
+    "width": 1080,
+    "height": 1920,
+    "size_bytes": 3660400,
+    "bitrate": 1952213,
+    "audio": true,
+    "black": []
+  },
+  "total": 100.0,
+  "task": "E2",
+  "integrity": {
+    "ok": true,
+    "modified": [],
+    "engine_modified": false
+  },
+  "profile": "build"
+}

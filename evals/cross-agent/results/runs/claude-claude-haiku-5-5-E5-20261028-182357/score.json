@@ -1,0 +1,23 @@
+{
+  "components": {
+    "determinism": 40,
+    "no_forbidden_patterns": 15,
+    "video": 16.0,
+    "qa_report": 5,
+    "layout": 10.0,
+    "spec": 10.0
+  },
+  "forbidden_patterns": [],
+  "p0_fail": [],
+  "fail": [
+    "T6.frozen: starts [1.5] durations [4.16667]"
+  ],
+  "total": 96.0,
+  "task": "E5",
+  "integrity": {
+    "ok": true,
+    "modified": [],
+    "engine_modified": false
+  },
+  "profile": "determinism"
+}

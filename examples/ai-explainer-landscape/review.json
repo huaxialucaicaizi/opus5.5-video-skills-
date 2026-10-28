@@ -1,0 +1,47 @@
+{
+  "reviewer": "claude-opus-5.5 (same session as the builder — not an independent review)",
+  "reviewed_at": "2026-10-28",
+  "method": "contact sheet (16 auto times), s3 at 7.0/8.6 s at 560 px, endings side-by-side with the portrait version, validators",
+  "checks": [
+    {
+      "id": "M1",
+      "status": "pass",
+      "note": "与竖屏版内容相同；示意数据均有标注。",
+      "evidence": [
+        "out/keyframes/t8_20.png"
+      ]
+    },
+    {
+      "id": "M2",
+      "status": "pass",
+      "note": "5 个场景都有可见事件。",
+      "evidence": [
+        "out/contact_sheet.jpg"
+      ]
+    },
+    {
+      "id": "M3",
+      "status": "pass",
+      "note": "s3 横屏改为左右分栏，概率条占满右栏高度，可读性正常。其余场景在 16:9 中偏居中、留白较多，但焦点清楚。",
+      "evidence": [
+        "out/keyframes/t7_50.png"
+      ]
+    },
+    {
+      "id": "M4",
+      "status": "pass",
+      "note": "与竖屏版同一配色与字体；无禁用效果。",
+      "evidence": [
+        "out/contact_sheet.jpg"
+      ]
+    },
+    {
+      "id": "M5",
+      "status": "pass",
+      "note": "结尾回扣「说话」。",
+      "evidence": [
+        "out/keyframes/t14_87.png"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "reviewer": "Claude Opus 5.5 (claude-opus-5-5) — independent reviewer, did not build this video",
+  "reviewed_at": "2026-10-28",
+  "method": "Ran validate_spec / render --sheet --keyframes --layout / layout_check / probe_video / check_determinism; viewed out/contact_sheet.jpg (16 auto keyframes), out/review_seams.jpg (s-0.05, s+0.05, s+0.15, s+0.25 at seams 2.5/5.5/9.5/12.5), out/review_s3s4.jpg (8.4–9.4 s and 11.9–12.3 s close-ups), out/review_mp4.jpg (6 frames decoded from the MP4: n=30,120,246,330,366,440); cross-checked text timing in out/layout.json; checked claims against task.json key_messages / must_avoid.",
+  "checks": [
+    {
+      "id": "M1",
+      "status": "fail",
+      "note": "P0 factual error, s3_probs 6.4–9.5 s (also visible in MP4 frame n=246): the four candidate probabilities 好 62% + 热 30% + 冷 20% + 差 9% sum to 121%. A next-token distribution over the whole vocabulary sums to 100%, so the top four can sum to at most 100% — and the on-screen note itself says the rest of the vocabulary also gets a share, which makes >100% self-contradictory. Correct: e.g. 好 52% / 热 21% / 冷 12% / 差 5% (sum 90%, leaving ~10% for the rest of the vocabulary). Secondary (warn-level): s4 readouts '最可能：「，」41%' etc. (9.9–12.1 s) show illustrative probabilities with no 示意 label in that scene (must_avoid: presenting illustrative numbers as real model data); s5 headline 'AI 一次只猜一个词' says 词 although s2 just taught that the unit is a token — acceptable simplification but 'token' would be more accurate. No claim that AI understands/thinks; token IDs are labelled 编号仅为示意 (s2 4.4 s).",
+      "evidence": ["out/keyframes/t7_50.png", "out/keyframes/t8_20.png", "out/review_s3s4.jpg", "out/review_mp4.jpg", "storyboard.json"]
+    },
+    {
+      "id": "M2",
+      "status": "pass",
+      "note": "Every scene has a visible event matching its storyboard event: s1 title rises + accent underline under 说话 + cursor (2.45 s seam frame); s2 sentence 今天天气真 (2.75 s) splits into 3 boxes, IDs appear staggered (4.00 → 5.37 s); s3 bars grow, 好 framed, others dim, ? slot filled with 好 (8.4 s onward, 9.37 s); s4 row grows 好 → ， → 适合 → 出门 with ? placeholder each step (9.67 / 11.00 / 11.9 / 12.3 s); s5 recap row, 所以, headline, sub, 自回归生成 badge (13.77 → 14.87 s). Minor: in s3 the 好 bar already has its frame at 7.50 s, ~0.6 s before the chime at 8.1 s and before the ? slot fills (~8.35 s), so the 'pick' beat is split in two.",
+      "evidence": ["out/contact_sheet.jpg", "out/review_seams.jpg", "out/review_s3s4.jpg"]
+    },
+    {
+      "id": "M3",
+      "status": "pass",
+      "note": "Focus is clear in all keyframes (single big element per beat, others dimmed in s3, accent box on the newest token in s4). Weak spots: s3 disclaimer (8.4–9.5 s) is a 3-line low-contrast caption under the bars and partly below the safe area (V1); s4 '最可能' readout is on screen only ~0.5 s per step and jumps from y≈975 to y≈1142 when the row wraps to two lines at ~10.5 s.",
+      "evidence": ["out/contact_sheet.jpg", "out/review_s3s4.jpg", "out/layout.json"]
+    },
+    {
+      "id": "M4",
+      "status": "pass",
+      "note": "One accent (#FF7A45 orange) + support blue (#5AB4FF) used consistently across all five scenes; same type family and dark ground throughout. No banned effects seen (no particles, neon glow, lens flare, shake, elastic text). Headlines have no trailing full stop. Only style-rule breach is 'text outside the safe area' (s3 note) — already counted as auto V1 fail, not double-counted here.",
+      "evidence": ["out/contact_sheet.jpg", "out/review_mp4.jpg"]
+    },
+    {
+      "id": "M5",
+      "status": "warn",
+      "note": "s5 recap row 今天 天气 真 好 ， 适合 出门 (12.67–15 s) calls back the sentence from s2–s4, but the storyboard motif says the sentence is '开场被提问' — s1 (0–2.5 s) never shows 今天天气真…, so the ending echoes the middle, not the opening. Also the recap row at 13.77 s is small (~caption size) and reads as secondary.",
+      "evidence": ["out/keyframes/t1_27.png", "out/keyframes/t13_77.png", "out/keyframes/t14_87.png"]
+    }
+  ]
+}

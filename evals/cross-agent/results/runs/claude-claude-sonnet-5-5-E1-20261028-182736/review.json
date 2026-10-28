@@ -1,0 +1,13 @@
+{
+  "reviewer": "claude-sonnet-5-5 (same session as the builder — not an independent review)",
+  "reviewed_at": "2026-10-28",
+  "method": "contact sheet (16 times) opened; seam strip at 2.5/5.5/9.5/12.5 s (±0.05–0.25 s) opened; 6 frames extracted from the encoded MP4 (out/review_mp4.jpg) opened; full-res keyframe t14_87 opened",
+  "checks": [
+    { "id": "M1", "status": "pass", "note": "核心三步（切 token → 给候选词打概率 → 选一个接上再猜）说法正确，未声称 AI 理解/思考。token 编号(2.5–5.5 s)与概率(5.5–9.5 s)均在画面标注「仅为示意」。未标注的简化：真实模型可能按概率采样而非总选最高，分词因模型而异；15 s 内可接受。", "evidence": ["out/keyframes/t5_37.png", "out/keyframes/t9_37.png"] },
+    { "id": "M2", "status": "pass", "note": "5 个场景首末帧均有可见变化：标题升起+下划线+光标；句子裂成 3 个 token 并出现编号；4 根概率条长出、「好」被框住并填入问号；句子逐词变长至「出门」；回顾行+结论+术语徽章弹出。", "evidence": ["out/contact_sheet.jpg"] },
+    { "id": "M3", "status": "pass", "note": "每个关键帧一个主焦点。小瑕疵：s4 七个 token 折成两行；结尾画面下半部约 30% 留空，偏上。", "evidence": ["out/keyframes/t12_37.png", "out/keyframes/t14_87.png"] },
+    { "id": "M4", "status": "pass", "note": "无禁用效果；橙色强调+蓝色辅助数据色，字体圆角全片一致；MP4 抽帧与预览一致、文字清晰。", "evidence": ["out/review_mp4.jpg", "out/contact_sheet.jpg"] },
+    { "id": "M5", "status": "pass", "note": "结尾回顾行重现「今天天气真好，适合出门」，并新增小标「这就是 AI “说话”」直接回扣开头标题。小标字号偏小、对比偏弱（t14.87）。", "evidence": ["out/keyframes/t14_87.png"] }
+  ],
+  "seams": "2.5/5.5/9.5/12.5 s 的接缝均为分段淡出再淡入，无双重曝光；转场中点（约 2.75、5.75、9.75、12.75 s）画面较空，属设计内的分段转场，非黑帧。"
+}

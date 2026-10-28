@@ -1,0 +1,1 @@
+审一下 projects/e7-review/ 这条已经渲染好的片子（out/e7-review.mp4），按 skills/video-quality-reviewer 的流程写 review.json 并生成 QA 报告，最后列出按优先级排序的修改清单（写到 projects/e7-review/FIXES.md）。只审不改。无人值守，不要提问。

@@ -1,0 +1,19 @@
+dir,agent,model_requested,models_used,task,score,wall_s,total_cost_usd,num_turns,exit_code,p0_fail,toolkit_commit
+claude-E4-20261028-182151,claude / default→claude-sonnet-5-5,default,claude-sonnet-5-5;claude-haiku-5-5,E4,100.0,28,0.1538194,6,0,,4782e06
+claude-claude-haiku-5-5-E1-20261028-182919,claude / claude-haiku-5-5,claude-haiku-5-5,claude-haiku-5-5,E1,100.0,364,0.17743836000000004,39,0,,4782e06
+claude-claude-haiku-5-5-E2-20261028-183536,claude / claude-haiku-5-5,claude-haiku-5-5,claude-haiku-5-5,E2,100.0,417,0.34470057000000004,57,0,,4782e06
+claude-claude-haiku-5-5-E3-20261028-184244,claude / claude-haiku-5-5,claude-haiku-5-5,claude-haiku-5-5,E3,100.0,315,0.25740116,35,0,,4782e06
+claude-claude-haiku-5-5-E4-20261028-182258,claude / claude-haiku-5-5,claude-haiku-5-5,claude-haiku-5-5,E4,100.0,59,0.02295138,21,0,,4782e06
+claude-claude-haiku-5-5-E5-20261028-182357,claude / claude-haiku-5-5,claude-haiku-5-5,claude-haiku-5-5,E5,96.0,125,0.027078809999999995,19,0,,4782e06
+claude-claude-haiku-5-5-E6-20261028-182823,claude / claude-haiku-5-5,claude-haiku-5-5,claude-haiku-5-5,E6,100.0,45,0.012930400000000002,10,0,,4782e06
+claude-claude-haiku-5-5-E7-20261028-182610,claude / claude-haiku-5-5,claude-haiku-5-5,claude-haiku-5-5,E7,100.0,102,0.029444780000000004,24,0,,4782e06
+claude-claude-opus-5-5-E2-20261028-184825,claude / claude-opus-5-5,claude-opus-5-5,claude-opus-5-5;claude-haiku-5-5,E2,100.0,403,1.7788224,28,0,,4782e06
+claude-claude-opus-5-5-E3-20261028-185520,claude / claude-opus-5-5,claude-opus-5-5,claude-opus-5-5;claude-haiku-5-5,E3,100.0,350,1.8720622000000002,30,0,,4782e06
+claude-claude-opus-5-5-E7-20261028-190120,claude / claude-opus-5-5,claude-opus-5-5,claude-opus-5-5;claude-haiku-5-5,E7,100.0,134,0.7871697000000001,19,0,,4782e06
+claude-claude-sonnet-5-5-E1-20261028-182736,claude / claude-sonnet-5-5,claude-sonnet-5-5,claude-sonnet-5-5;claude-haiku-5-5,E1,100.0,95,0.30800489999999997,14,0,,4782e06
+claude-claude-sonnet-5-5-E2-20261028-182923,claude / claude-sonnet-5-5,claude-sonnet-5-5,claude-sonnet-5-5;claude-haiku-5-5,E2,100.0,176,0.4668429999999999,23,0,,4782e06
+claude-claude-sonnet-5-5-E3-20261028-183233,claude / claude-sonnet-5-5,claude-sonnet-5-5,claude-sonnet-5-5;claude-haiku-5-5,E3,100.0,233,0.5852940999999999,26,0,,4782e06
+claude-claude-sonnet-5-5-E4-20261028-182257,claude / claude-sonnet-5-5,claude-sonnet-5-5,claude-sonnet-5-5;claude-haiku-5-5,E4,100.0,23,0.151527,6,0,,4782e06
+claude-claude-sonnet-5-5-E5-20261028-182320,claude / claude-sonnet-5-5,claude-sonnet-5-5,claude-sonnet-5-5;claude-haiku-5-5,E5,96.0,53,0.1750674,11,0,,4782e06
+claude-claude-sonnet-5-5-E6-20261028-182704,claude / claude-sonnet-5-5,claude-sonnet-5-5,claude-sonnet-5-5;claude-haiku-5-5,E6,100.0,26,0.12115269999999999,7,0,,4782e06
+claude-claude-sonnet-5-5-E7-20261028-182423,claude / claude-sonnet-5-5,claude-sonnet-5-5,claude-sonnet-5-5;claude-haiku-5-5,E7,100.0,114,0.4495917,24,0,,4782e06

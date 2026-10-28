@@ -1,0 +1,1 @@
+用本工具包做一条 15 秒竖屏（1080×1920，30fps）中文 AI 科普短片，主题：AI 是怎么“说话”的（讲清楚：切成 token → 给候选词打概率 → 选一个接上再猜）。项目放在 projects/e1-how-ai-talks/，task id 用 e1-how-ai-talks。按 AGENTS.md 和 skills/ 里的流程完成：分镜、校验、渲染 MP4、自己看关键帧、写 review.json、生成 QA 报告。无人值守，不要提问，假设写进 task.json 的 notes。

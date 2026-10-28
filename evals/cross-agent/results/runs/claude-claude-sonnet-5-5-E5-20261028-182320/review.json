@@ -1,0 +1,6 @@
+{"reviewer":"claude-sonnet-5-5 (viewed contact_sheet.jpg + keyframes/t3_00.png)","checks":[
+{"id":"M1","status":"pass","note":"仅标题/副标题，无事实性内容","evidence":["out/keyframes/t3_00.png"]},
+{"id":"M2","status":"pass","note":"0.17s 近空画面 → 3.00s 标题与副标题已升起、星点可见，与 event 一致","evidence":["out/contact_sheet.jpg"]},
+{"id":"M3","status":"pass","note":"白色大标题居中，星点小且暗，不抢焦点","evidence":["out/keyframes/t3_00.png"]},
+{"id":"M4","status":"pass","note":"默认样式配色/字体一致，无禁用效果","evidence":["out/keyframes/t3_00.png"]},
+{"id":"M5","status":"warn","note":"单场景：结尾标题淡出、星点仍在，回扣开头星点母题，但无专门收束画面","evidence":["out/contact_sheet.jpg"]}]}

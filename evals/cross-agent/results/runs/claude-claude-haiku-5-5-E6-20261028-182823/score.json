@@ -1,0 +1,26 @@
+{
+  "components": {
+    "technical": 40.0,
+    "requirements": 60
+  },
+  "p0_fail": [],
+  "fail": [],
+  "video_meta": {
+    "duration": 6.4,
+    "fps": 30.0,
+    "width": 1080,
+    "height": 1920,
+    "size_bytes": 4998413,
+    "bitrate": 6248016,
+    "audio": true,
+    "black": []
+  },
+  "total": 100.0,
+  "task": "E6",
+  "integrity": {
+    "ok": true,
+    "modified": [],
+    "engine_modified": false
+  },
+  "profile": "footage"
+}

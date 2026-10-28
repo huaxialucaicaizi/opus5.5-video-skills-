@@ -1,0 +1,37 @@
+{
+  "reviewer": "claude-haiku-5-5 (Claude agent, unattended run; builder identity unknown, independence not confirmed)",
+  "reviewed_at": "2026-10-28",
+  "method": "Ran validate_spec, probe_video, render --sheet/--keyframes/--layout, check_determinism, layout_check on out/e7-review.mp4 (sha256 a5dfadaa…c451cf, unchanged by review). Viewed out/contact_sheet.jpg (16 frames), out/review_seams.jpg (scene-boundary seams at s±0.05/0.15/0.25 for s2–s5), out/review_mp4.jpg (8 frames decoded from the MP4), out/review_mp4_probs.jpg (MP4 frames at 7.5 s, 8.4 s, 9.4 s, 14.5 s), and read storyboard.json in full for content checks. Did not listen to the audio; loudness is the value reported by probe_video (A1).",
+  "checks": [
+    {
+      "id": "M1",
+      "status": "fail",
+      "note": "P0. s3_probs (5.5–9.5 s): the four displayed candidate probabilities are 好 62% / 热 30% / 冷 20% / 差 9%, which sum to 121%. Even if only the top four are drawn, they cannot exceed 100% of the distribution, so the illustration contains an impossible number. Also, the disclaimer '概率仅为示意…' only appears at 8.4 s, while the percentages are on screen from 6.4 s, so for ~2 s the numbers read as real model output. Fix: make the displayed values sum to ≤100% (e.g. 62/20/10/5 with the remainder noted), and put the 示意 label on screen when the numbers first appear. s2_tokens (2.5–5.5 s) is labelled 编号仅为示意, which is fine. s4_loop 'most likely' 33% (11.5 s) is shown without the alternatives, so 'most likely' is not verifiable on screen; tolerable as illustration, but note it. The storyboard on_screen_text for s4 contains a placeholder '最可能：「…」 xx%' — the rendered frame shows a real value, so this is a spec clean-up issue only.",
+      "evidence": ["out/contact_sheet.jpg", "out/review_mp4_probs.jpg", "projects/e7-review/storyboard.json (s3_probs.params.options, on_screen_text)"]
+    },
+    {
+      "id": "M2",
+      "status": "pass",
+      "note": "Each scene shows its event. s1 0.2–2.4 s: title lines rise, '说话' underlined in accent, cursor blinks. s2 2.5–5.5 s: sentence splits into three token boxes (split at ~3.2 s), ids appear ~3.9 s. s3 5.5–9.5 s: bars grow, 好 framed at ~8.1 s, '?' filled with 好. s4 9.5–12.5 s: 好 ， 适合 出门 appended one per beat, '?' slot refilled each step. s5 12.5–15 s: recap line, headline, 自回归生成 badge pops at ~13.7 s. Verified in contact sheet and MP4 frames.",
+      "evidence": ["out/contact_sheet.jpg", "out/review_seams.jpg", "out/review_mp4.jpg"]
+    },
+    {
+      "id": "M3",
+      "status": "pass",
+      "note": "Focus is clear in every key frame: '说话' highlighted at 1–2 s; token boxes with ids at ~4.0 s; 好 boxed and bright at ~8.2 s; newest appended word highlighted at ~11 s; 自回归生成 badge at ~14 s. Non-focus elements dim. Small items (#1024 ids, caption text) are small but readable at phone size.",
+      "evidence": ["out/keyframes/t2_37.png", "out/keyframes/t5_37.png", "out/keyframes/t9_37.png", "out/keyframes/t14_87.png"]
+    },
+    {
+      "id": "M4",
+      "status": "pass",
+      "note": "No banned effects (no particle burst, no neon glow) in any frame. Palette is consistent: dark background, orange accent, blue secondary, one display sans. The blue '一遍又一遍' label in s4 is a second accent in an otherwise orange/grey system; acceptable, but worth checking against style.default.json.",
+      "evidence": ["out/contact_sheet.jpg"]
+    },
+    {
+      "id": "M5",
+      "status": "pass",
+      "note": "Ending recalls the opening: s5 recap line restates the sentence '今天天气真好，适合出门' that s1 opens on the question about, and the motif in storyboard.json ('今天天气真…' asked, cut, completed, returned). The final frame holds the badge at full opacity with no fade-out cut.",
+      "evidence": ["out/review_mp4.jpg", "out/keyframes/t14_87.png"]
+    }
+  ]
+}

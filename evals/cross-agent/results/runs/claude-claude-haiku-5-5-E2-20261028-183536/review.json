@@ -1,0 +1,43 @@
+{
+  "reviewer": "claude (haiku-5.5, same session as the builder — not an independent review)",
+  "reviewed_at": "2026-10-28",
+  "method": "contact sheet (15 auto times) + seam strips at 2.4/2.5/2.6, 5.4/5.5/5.6, 8.9/9.0/9.1, 12.4/12.5/12.6 s + keyframes + 6 frames extracted from the encoded MP4 (out/review_mp4.jpg); automatic checks rerun after every change",
+  "iterations": [
+    "v1: validate S3 (prob-bars note held 1.1 s < 1.83 s) and S5 (no transition_out on last scene) -> retimed note, added transition_out",
+    "v2: layout V1 failed (4th prob-bar row and note below 1560 px safe bottom) -> 3 candidates, note moved up",
+    "v3: contact sheet showed no visible disclaimer on the append-loop scene (on_screen_text is metadata, the component did not draw it) -> added optional note param to append-loop.js and README",
+    "v4: encoded-frame review found the s3 readout (\"最可能 88%\") not covered by the disclaimer, and s4 sub \"AI 只管接得顺，不管对不对\" overstated the mechanism -> disclaimer now covers probabilities, sub reworded to \"接得顺，不代表说得对\""
+  ],
+  "checks": [
+    {
+      "id": "M1",
+      "status": "warn",
+      "note": "核心说法正确：大模型按概率逐词接续；通顺不等于真实；幻觉是该现象的通用叫法；建议核实人名、数字、出处。画面中的概率、人名、示例句均已标注为虚构示意（s2 与 s3 的底部小字）。未修的简化：s2 画面只演示「选概率最高的词」，而真实解码有时按概率抽样，并不总取最高值。这是科普常见的简化，不影响主旨，但若做系列应在后续视频中说明。",
+      "evidence": ["out/keyframes/t5_37.png", "out/keyframes/t7_27.png", "out/review_mp4.jpg"]
+    },
+    {
+      "id": "M2",
+      "status": "pass",
+      "note": "5 个场景首末帧都有可见变化，与 event 一致：s1 标题三行升起并扫过下划线；s2 概率条增长、「张」被框住并填入问号；s3 词块逐个接上、最可能词读数变化；s4 回顾行出现、结论升起、术语徽章弹出；s5 标题升起、「核实」下划线扫过。",
+      "evidence": ["out/contact_sheet.jpg", "out/review_seams.jpg"]
+    },
+    {
+      "id": "M3",
+      "status": "pass",
+      "note": "每个关键帧只有一个主焦点：t=0.17–2.37 s 的「胡说」为强调色；t=4.00 s 的「张」概率条为强调色且最长；t=7.27 s 的问号槽与「最可能」读数；t=10.77 s 的结论标题与「AI 幻觉」徽章；t=14.87 s 的「核实」为强调色。",
+      "evidence": ["out/keyframes/t0_17.png", "out/keyframes/t4_00.png", "out/keyframes/t7_27.png", "out/keyframes/t10_77.png", "out/keyframes/t14_87.png"]
+    },
+    {
+      "id": "M4",
+      "status": "pass",
+      "note": "未使用禁用效果（无粒子、无辉光、无 RGB 分离）。配色统一：深色底、橙色强调、蓝色辅助，字体为同一套无衬线中文字体。转场为 fade/push，无空白帧：fade 为经背景色的分段淡入淡出，push 为分段进出，接缝帧条中未见双重曝光。",
+      "evidence": ["out/review_seams.jpg", "out/contact_sheet.jpg"]
+    },
+    {
+      "id": "M5",
+      "status": "pass",
+      "note": "结尾回扣开头：开场问「AI 为什么会一本正经地胡说？」，结尾给出「人名、数字、出处都要核实」，并以「核实」作为强调词。示例句的回顾行在 s4 出现，并在 s5 转场中短暂保留（约 12.4–12.7 s），其后不再出现。",
+      "evidence": ["out/keyframes/t0_17.png", "out/keyframes/t14_87.png", "out/keyframes/t12_37.png"]
+    }
+  ]
+}

@@ -19,7 +19,9 @@ export default function appendLoop(f, p) {
   const shown = (p.start || []).length + n;
   const showing = n < steps.length && raw >= 0;
   const labels = all.slice(0, shown).concat(showing ? ['？'] : []);
-  const lay = flowLayout(f, labels, { cx: W / 2, top: H * 0.36, maxW: safe.w, gap: 16, role: 'headline' });
+  // Layout is computed on the FINAL sentence so chips never jump to another row mid-scene.
+  const full = flowLayout(f, all, { cx: W / 2, top: H * 0.36, maxW: safe.w, gap: 16, role: 'headline' });
+  const lay = { height: full.height, items: labels.map((label, i) => ({ ...full.items[i], label })) };
 
   lay.items.forEach((it, i) => {
     const isSlot = showing && i === labels.length - 1;

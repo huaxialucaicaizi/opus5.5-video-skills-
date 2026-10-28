@@ -1,0 +1,22 @@
+{
+  "agent": "claude",
+  "model_requested": "claude-sonnet-5-5",
+  "task": "E6",
+  "exit_code": 0,
+  "wall_s": 26,
+  "toolkit_commit": "4782e06",
+  "score": 100.0,
+  "components": {
+    "technical": 40.0,
+    "requirements": 60
+  },
+  "p0_fail": [],
+  "total_cost_usd": 0.12115269999999999,
+  "num_turns": 7,
+  "duration_ms": 25324,
+  "is_error": false,
+  "models_used": [
+    "claude-sonnet-5-5",
+    "claude-haiku-5-5"
+  ]
+}

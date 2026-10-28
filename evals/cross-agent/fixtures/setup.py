@@ -3,7 +3,7 @@
 
     python3 evals/cross-agent/fixtures/setup.py <task_id> <workspace_dir>
 
-E1–E3 start empty. E4 plants spec defects, E5 a non-deterministic component, E6 generated clips,
+E1 removes the reference example (so it cannot be copied); E2–E3 start empty. E4 plants spec defects, E5 a non-deterministic component, E6 generated clips,
 E7 a rendered video with four planted defects (D1–D4, see tasks.json).
 """
 import json, shutil, subprocess, sys
@@ -18,6 +18,11 @@ def example(ws):
 def write(p, obj):
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(obj, ensure_ascii=False, indent=2) + '\n')
+
+def e1(ws):
+    # Hide the reference project: with it visible, agents copied it (observed in the first Sonnet/Haiku runs),
+    # so E1 measured reuse instead of planning.
+    shutil.rmtree(ws / 'examples/ai-explainer-15s', ignore_errors=True)
 
 def e4(ws):
     sb, task = example(ws); d = ws / 'projects/e4-broken'
@@ -100,7 +105,7 @@ def e7(ws):
 
 def main():
     tid, ws = sys.argv[1], Path(sys.argv[2]).resolve()
-    {'E1': lambda w: None, 'E2': lambda w: None, 'E3': lambda w: None, 'E4': e4, 'E5': e5, 'E6': e6, 'E7': e7}[tid](ws)
+    {'E1': e1, 'E2': lambda w: None, 'E3': lambda w: None, 'E4': e4, 'E5': e5, 'E6': e6, 'E7': e7}[tid](ws)
     print(f'fixture {tid} ready in {ws}')
 
 if __name__ == '__main__':

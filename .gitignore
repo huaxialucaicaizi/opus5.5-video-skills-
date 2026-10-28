@@ -9,3 +9,5 @@ components/remotion/node_modules/
 .claude/skills/
 .agents/skills/
 .grok/skills/
+evals/cross-agent/runs/
+examples/*/out/

@@ -1,0 +1,12 @@
+{
+  "reviewer": "claude-opus-5-5 (same session as builder — not independent)",
+  "reviewed_at": "2026-10-28",
+  "method": "Opened out/contact_sheet.jpg (18 frames), out/strip_s4.jpg (9 frames across the new fact-check scene), out/review_seams.jpg (4 seams × 5 frames), and out/review_mp4.jpg (6 frames decoded from the final MP4); checked claims against how LLM decoding works.",
+  "checks": [
+    {"id": "M1", "status": "pass", "note": "Claims: the model picks the next token by probability (s2), keeps appending, and produces fluent text (s3); fluent ≠ true, and this is called hallucination (s4); verify important info (s5). All correct at explainer level. Simplifications: s2 always picks the top option (real decoding may also sample), and s3 treats '1987年' as one token; neither changes the message. The book 《雾灯》 and the author 张明远 are invented, labelled on screen '虚构书名 · 概率示意' (5.1–6.5 s), and the s3 probabilities are labelled '概率仅为示意' (7.5–9.0 s).", "evidence": ["out/keyframes/t5_30.png", "out/keyframes/t7_77.png", "out/strip_s4.jpg"]},
+    {"id": "M2", "status": "pass", "note": "Each scene has a visible event: s1 the title lines rise and 胡说八道 gets underlined; s2 the bars grow and 张 is picked into the ? slot (4.8 s); s3 the sentence grows from 3 to 7 chips; s4 tagged 通顺 ✓ → scanned → struck through, 查无此书 lands (10.75 s), then the headline appears; s5 the recap, conclusion and sub-line rise in.", "evidence": ["out/contact_sheet.jpg", "out/strip_s4.jpg"]},
+    {"id": "M3", "status": "pass", "note": "One focal element per keyframe: the highlighted 胡说八道, the framed 张 bar, the newest accent chip, the orange 查无此书 then the large 通顺 ≠ 真实, the large 重要信息要核实. s5 leaves the lower ~35% of the frame empty (minor).", "evidence": ["out/keyframes/t5_30.png", "out/keyframes/t12_20.png", "out/keyframes/t13_77.png"]},
+    {"id": "M4", "status": "pass", "note": "Default dark style throughout. Orange accent for the 'wrong/picked' state, blue support colour for the 通顺 tag and the scan line. No particles, glow, shake or elastic easing. The wipe at 9.0 s was replaced by a fade because it cut the caption in half.", "evidence": ["out/contact_sheet.jpg", "out/review_seams.jpg"]},
+    {"id": "M5", "status": "pass", "note": "The invented sentence that is generated in s2–s3 and debunked in s4 comes back as the s5 recap row ending in ？, which answers the opening question about 胡说八道 with 重要信息要核实.", "evidence": ["out/keyframes/t12_67.png", "out/keyframes/t14_87.png"]}
+  ]
+}

@@ -18,7 +18,7 @@ description: Plan a short code-rendered video before any code is written. Turns 
 | 必需 | 可选（缺失时用默认值并在计划里写明） |
 |---|---|
 | 主题 / 要讲清楚的一件事 | 时长（默认 15 s）、画幅（默认 1080×1920 竖屏 30 fps）、平台、受众、语言（默认 zh-CN） |
-| | 风格文件（默认 `$AVS/templates/visual-style/style.default.json`）、品牌色、参考视频/图、配乐（默认程序化合成）、必须避免的内容 |
+| | 风格文件（9:16 默认 `$AVS/templates/visual-style/style.default.json`；16:9 用 `style.landscape.json`）、品牌色、参考视频/图、配乐（默认程序化合成）、必须避免的内容 |
 
 只在**改错代价高**时提问（例如 >60 s、多个交付物、品牌规范不明确）。15–30 s 的科普，直接按默认值出计划，把假设写在 `task.json.notes`。
 

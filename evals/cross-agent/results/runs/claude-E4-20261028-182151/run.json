@@ -1,0 +1,22 @@
+{
+  "agent": "claude",
+  "task": "E4",
+  "exit_code": 0,
+  "wall_s": 28,
+  "toolkit_commit": "4782e06",
+  "score": 100.0,
+  "components": {
+    "planted_fixed": 70.0,
+    "intent": 30.0
+  },
+  "p0_fail": [],
+  "total_cost_usd": 0.1538194,
+  "num_turns": 6,
+  "duration_ms": 23542,
+  "is_error": false,
+  "models_used": [
+    "claude-sonnet-5-5",
+    "claude-haiku-5-5"
+  ],
+  "model_requested": "default"
+}

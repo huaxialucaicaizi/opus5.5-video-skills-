@@ -1,0 +1,35 @@
+{
+  "reviewer": "claude (same session as builder)",
+  "checks": [
+    {
+      "id": "M1",
+      "status": "pass",
+      "note": "屏幕文字只有「AI 小科普」「今天聊聊大模型」，无事实性断言，无需数据标注。",
+      "evidence": ["out/contact_sheet.jpg"]
+    },
+    {
+      "id": "M2",
+      "status": "pass",
+      "note": "0.3–1.0 s 标题升起并淡入（0.6 s 关键帧标题已约 80% 不透明）；0.9–1.4 s 副标题出现；星点全程闪烁。与 event 描述一致。",
+      "evidence": ["out/frames/f00018.jpg", "out/contact_sheet.jpg"]
+    },
+    {
+      "id": "M3",
+      "status": "pass",
+      "note": "居中大标题是画面中唯一的强对比元素，一眼可读。",
+      "evidence": ["out/keyframes/t3_00.png"]
+    },
+    {
+      "id": "M4",
+      "status": "pass",
+      "note": "深色底、暖色星点、同一字体与配色，无禁用效果。",
+      "evidence": ["out/keyframes/t3_00.png"]
+    },
+    {
+      "id": "M5",
+      "status": "warn",
+      "note": "单镜头（s1）时长 6 s，结尾只有 0.4 s 淡出，没有回扣开头的独立结尾镜头。这是 P2 项，若需要首尾呼应，请另加结尾场景。",
+      "evidence": ["out/contact_sheet.jpg"]
+    }
+  ]
+}

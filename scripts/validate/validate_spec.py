@@ -102,6 +102,14 @@ def run(project):
         unk = sorted({s['component'] for s in scenes} - reg)
         out.append(check('S6.components', 'P0', not unk, 'all scene components are registered', f'unknown: {unk}; known: {sorted(reg)}'))
 
+    # ---- S7 style fits the frame (a 9:16 style scaled onto 16:9 leaves almost no safe area)
+    u = sb['width'] / style.get('reference_width', 1080); sa = style['layout']['safe_area']
+    sw = sb['width'] - (sa['left'] + sa['right']) * u; shh = sb['height'] - (sa['top'] + sa['bottom']) * u
+    fits = sw >= 0.6 * sb['width'] and shh >= 0.5 * sb['height']
+    hint = '' if fits else (f"safe area would be {sw:.0f}x{shh:.0f} px in a {sb['width']}x{sb['height']} frame; "
+                            f"use a style made for this aspect ratio (e.g. templates/visual-style/style.landscape.json for 16:9)")
+    out.append(check('S7.style_fit', 'P0', fits, f"style '{style.get('name')}' fits {sb['width']}x{sb['height']}", hint))
+
     # ---- L1 asset licences
     if task is not None:
         bad = []
