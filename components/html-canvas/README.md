@@ -46,11 +46,12 @@ export default function myScene(f, p) {       // f = 帧 API, p = storyboard 里
 | `token-split` | 一句话裂成若干块（token/词/步骤），下方可出编号 | `caption`, `tokens: string[]`, `ids?: string[]`, `splitAt?=0.9`, `idsAt?=1.7`, `note?` |
 | `prob-bars` | 上下文 + 问题 + 横向概率条，选中最高项填入问号（横屏自动左右分栏） | `caption`, `context: string[]`, `question`, `options: [{label, p}]`, `pick`, `pickAt?=2.6`, `note?` |
 | `append-loop` | 自回归/迭代：一行块不断追加，每步先问号再落下 | `caption`, `start: string[]`, `steps: [{token, p}]`, `stepDur?=0.62`, `firstAt?=0.5`, `loopLabel?` |
+| `prompt-compare` | 聊天对话：用户提问气泡 → AI 回答逐行出现 → 判定徽章（✗/✓），两段连用即「反例/正例」对比 | `caption?`, `askLabel?`, `prompt`, `answerLabel?`, `answer: string[]`, `verdict?`, `tone: 'bad'\|'good'`, `answerAt?=0.9`, `lineGap?=0.32`, `answerSize?` |
+| `list-reveal` | 带标题的竖向清单，逐条滑入并高亮最新一条；文字超宽时换成两行（可用 `\n` 指定断行） | `caption?`, `title?`, `items: [{label, text}]`, `firstAt?=0.5`, `step?=0.6`, `labelW?=220` |
+| `presenter-placeholder` | 风格 demo 用的出镜占位剪影（带「示意」标注），不要用于成片 | `label?` |
 | `takeaway` | 结论卡：回顾行 + 结论 + 副句 + 术语徽章 | `recap?: string[]`, `kicker?`, `headline`, `sub?`, `term?`, `termAt?=1.2` |
 
 时间参数都是**场景内时间**（秒）。
 
 ## 转场（storyboard 的 `transition_in.type`）
 `fade`（经背景色分段淡出淡入）、`push`（旧场景上移淡出 → 新场景自下进入，分段，不重叠）、`wipe`（强调色擦除线）、`iris`（圆形展开）、`cut-on-action` / `smash-cut` / `none`（硬切）。`morph` / `match-cut` / `whip` 目前按 `fade` 处理——真正的形变/匹配剪辑需要在组件里自己做。最后一个场景的 `transition_out: fade` 淡到背景色。
-| `prompt-compare` | 聊天对话：用户提问气泡 → AI 回答逐行出现 → 判定徽章（✗/✓），两段连用即「反例/正例」对比 | `caption?`, `askLabel?`, `prompt`, `answerLabel?`, `answer: string[]`, `verdict?`, `tone: 'bad'\|'good'`, `answerAt?=0.9`, `lineGap?=0.32`, `answerSize?` |
-| `list-reveal` | 带标题的竖向清单，逐条滑入并高亮最新一条；文字超宽时换成两行（可用 `\n` 指定断行） | `caption?`, `title?`, `items: [{label, text}]`, `firstAt?=0.5`, `step?=0.6`, `labelW?=220` |

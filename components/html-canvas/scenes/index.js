@@ -8,6 +8,7 @@ import appendLoop from './append-loop.js';
 import takeaway from './takeaway.js';
 import promptCompare from './prompt-compare.js';
 import listReveal from './list-reveal.js';
+import presenterPlaceholder from './presenter-placeholder.js';
 
 export const scenes = {
   'kinetic-title': kineticTitle,
@@ -17,5 +18,6 @@ export const scenes = {
   'takeaway': takeaway,
   'prompt-compare': promptCompare,
   'list-reveal': listReveal,
+  'presenter-placeholder': presenterPlaceholder,
 };
 export default scenes;
