@@ -52,3 +52,5 @@ export default function myScene(f, p) {       // f = 帧 API, p = storyboard 里
 
 ## 转场（storyboard 的 `transition_in.type`）
 `fade`（经背景色分段淡出淡入）、`push`（旧场景上移淡出 → 新场景自下进入，分段，不重叠）、`wipe`（强调色擦除线）、`iris`（圆形展开）、`cut-on-action` / `smash-cut` / `none`（硬切）。`morph` / `match-cut` / `whip` 目前按 `fade` 处理——真正的形变/匹配剪辑需要在组件里自己做。最后一个场景的 `transition_out: fade` 淡到背景色。
+| `prompt-compare` | 聊天对话：用户提问气泡 → AI 回答逐行出现 → 判定徽章（✗/✓），两段连用即「反例/正例」对比 | `caption?`, `askLabel?`, `prompt`, `answerLabel?`, `answer: string[]`, `verdict?`, `tone: 'bad'\|'good'`, `answerAt?=0.9`, `lineGap?=0.32`, `answerSize?` |
+| `list-reveal` | 带标题的竖向清单，逐条滑入并高亮最新一条；文字超宽时换成两行（可用 `\n` 指定断行） | `caption?`, `title?`, `items: [{label, text}]`, `firstAt?=0.5`, `step?=0.6`, `labelW?=220` |

@@ -11,3 +11,4 @@ components/remotion/node_modules/
 .grok/skills/
 evals/cross-agent/runs/
 examples/*/out/
+projects/

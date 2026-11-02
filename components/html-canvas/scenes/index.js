@@ -6,6 +6,8 @@ import tokenSplit from './token-split.js';
 import probBars from './prob-bars.js';
 import appendLoop from './append-loop.js';
 import takeaway from './takeaway.js';
+import promptCompare from './prompt-compare.js';
+import listReveal from './list-reveal.js';
 
 export const scenes = {
   'kinetic-title': kineticTitle,
@@ -13,5 +15,7 @@ export const scenes = {
   'prob-bars': probBars,
   'append-loop': appendLoop,
   'takeaway': takeaway,
+  'prompt-compare': promptCompare,
+  'list-reveal': listReveal,
 };
 export default scenes;
