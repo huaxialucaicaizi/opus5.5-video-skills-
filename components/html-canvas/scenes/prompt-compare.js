@@ -20,7 +20,7 @@ export default function promptCompare(f, p) {
   f.camera({ push: 0.025 });
   const out = f.exit;
   const good = p.tone === 'good';
-  const tone = good ? pal.success : pal.accent;
+  const tone = good ? pal.success : (pal.warn || pal.accent);
   stepCaption(f, p.caption, rise(f, 0, 20).a * out);
 
   const pad = 34 * u, bubbleMax = safe.w * 0.86;

@@ -99,6 +99,9 @@ def fmt_ts(t, ass=False):
 KW = re.compile(r'【([^】]+)】')
 def plain(l): return KW.sub(r'\1', l)
 
+FONTS = Path(__file__).resolve().parents[2] / 'assets' / 'fonts'
+BRAND = {'text': '#F6F0E6', 'accent': '#C8FF3C', 'ink': '#161616', 'display_font': 'ZCOOL KuaiLe'}   # see content-ops/STYLE.md
+
 def ass_color(hex6, alpha=0):  # '#RRGGBB' -> ASS &HAABBGGRR
     h = hex6.lstrip('#'); return f'&H{alpha:02X}{h[4:6]}{h[2:4]}{h[0:2]}'.upper().replace('&H', '&H')
 
@@ -110,7 +113,12 @@ def write_captions(lines, bounds, offset, W, H, srt_path, ass_path, segs=None, S
         for i, (l, (a, b)) in enumerate(zip(lines, bounds), 1):
             f.write(f'{i}\n{fmt_ts(a - offset)} --> {fmt_ts(b - offset)}\n{plain(l)}\n\n')
     k = W / 1080
-    TXT, ACC, INK = ass_color('#F2EFE9'), ass_color('#FF7A45'), ass_color('#0F1115')
+    B = {**BRAND, **((S or {}).get('colors') or {})}
+    TXT, ACC, INK, WHT = ass_color(B['text']), ass_color(B['accent']), ass_color(B['ink']), ass_color('#FFFFFF')
+    SER = ass_color((S or {}).get('series_color') or B['accent'])          # series tag colour: 小白课 = lime, AI观察 = pink
+    SER_TXT = WHT if (S or {}).get('series_color') else ACC
+    SER_BOX = SER if (S or {}).get('series_color') else INK
+    DF = B['display_font']
     hl = lambda l, base=TXT: KW.sub(lambda m: '{\\c' + ACC + '&}' + m.group(1) + '{\\c' + base + '&}', l)
     fs = round(60 * k); mv = round(H * 0.215)
     head = f"""[Script Info]
@@ -123,12 +131,12 @@ ScaledBorderAndShadow: yes
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Cap,Noto Sans CJK SC,{fs},{TXT},{TXT},{INK},&H64000000,-1,0,0,0,100,100,0,0,1,{max(3, round(fs / 13))},0,2,90,90,{mv},1
-Style: Series,Noto Sans CJK SC,{round(34 * k)},{TXT},{TXT},{ass_color('#181B22', 0x30)},{ass_color('#181B22', 0x30)},-1,0,0,0,100,100,1,0,3,{round(12 * k)},0,7,0,0,0,1
-Style: Tag,Noto Sans CJK SC,{round(40 * k)},{INK},{INK},{ACC},{ACC},-1,0,0,0,100,100,0,0,3,{round(14 * k)},0,1,0,0,0,1
-Style: Hook,Noto Sans CJK SC,{round(108 * k)},{TXT},{TXT},{INK},&H80000000,-1,0,0,0,100,100,2,0,1,{round(7 * k)},{round(4 * k)},5,60,60,0,1
-Style: Chapter,Noto Sans CJK SC,{round(46 * k)},{INK},{INK},{ACC},{ACC},-1,0,0,0,100,100,1,0,3,{round(14 * k)},0,7,0,0,0,1
-Style: EndBig,Noto Sans CJK SC,{round(112 * k)},{ACC},{ACC},{INK},&H00000000,-1,0,0,0,100,100,2,0,1,{round(5 * k)},0,5,0,0,0,1
-Style: EndSub,Noto Sans CJK SC,{round(56 * k)},{TXT},{TXT},{INK},&H00000000,-1,0,0,0,100,100,0,0,1,{round(4 * k)},0,5,0,0,0,1
+Style: Series,{DF},{round(40 * k)},{SER_TXT},{SER_TXT},{SER_BOX},{SER_BOX},0,0,0,0,100,100,1,-3,3,{round(12 * k)},0,7,0,0,0,1
+Style: Tag,Noto Sans CJK SC,{round(38 * k)},{INK},{INK},{WHT},{WHT},-1,0,0,0,100,100,0,-2,3,{round(12 * k)},0,1,0,0,0,1
+Style: Hook,{DF},{round(120 * k)},{WHT},{WHT},{INK},&H60000000,0,0,0,0,100,100,2,-4,1,{round(9 * k)},{round(5 * k)},5,60,60,0,1
+Style: Chapter,{DF},{round(50 * k)},{INK},{INK},{ACC},{ACC},0,0,0,0,100,100,1,-3,3,{round(14 * k)},0,7,0,0,0,1
+Style: EndBig,{DF},{round(130 * k)},{ACC},{ACC},{INK},&H00000000,0,0,0,0,100,100,2,-4,1,{round(8 * k)},0,5,0,0,0,1
+Style: EndSub,{DF},{round(58 * k)},{WHT},{WHT},{INK},&H00000000,0,0,0,0,100,100,0,0,1,{round(5 * k)},0,5,0,0,0,1
 Style: Shade,Noto Sans CJK SC,10,{INK},{INK},{INK},{INK},0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1
 
 [Events]
@@ -234,7 +242,8 @@ def main():
     r = d / 2
     circle = (f"crop='min(iw,ih)':'min(iw,ih)',scale={d}:{d},format=rgba,"
               f"geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='if(lte(hypot(X-{r},Y-{r}),{r - 1.5}),255,if(lte(hypot(X-{r},Y-{r}),{r}),110,0))'")
-    rw = max(4, int(d * 0.025)); D = d + 2 * rw; R = D / 2
+    _a = {**BRAND, **((E.get('style') or {}).get('colors') or {})}['accent'].lstrip('#'); RING = tuple(int(_a[i:i + 2], 16) for i in (0, 2, 4))
+    rw = max(6, int(d * 0.035)); D = d + 2 * rw; R = D / 2
     enc = ['-an', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '15', '-pix_fmt', 'yuv420p', '-r', str(fps)]
     parts = []
     for i, s in enumerate(segs):
@@ -254,8 +263,8 @@ def main():
                 pb = probe(broll[s['broll']]); crop = 'crop=iw:ih*0.75:0:ih*0.094,' if pb['h'] and pb['h'] > pb['w'] else ''
                 fg = (f"[0:v]{bt},{crop}{fit(W, box_h, bg)},pad={W}:{H}:0:{box_y}:color={bg}[b];"
                       f"[1:v]fps={fps},setpts=PTS-STARTPTS,{circle}[c];"
-                      f"color=c=0xFF7A45:s={D}x{D}:r={fps}:d={dur:.3f},format=rgba,"
-                      f"geq=r='255':g='122':b='69':a='if(between(hypot(X-{R},Y-{R}),{R - rw - 1},{R}),255,0)'[ring];"
+                      f"color=c=0x{RING[0]:02X}{RING[1]:02X}{RING[2]:02X}:s={D}x{D}:r={fps}:d={dur:.3f},format=rgba,"
+                      f"geq=r='{RING[0]}':g='{RING[1]}':b='{RING[2]}':a='if(between(hypot(X-{R},Y-{R}),{R - rw - 1},{R}),255,0)'[ring];"
                       f"[b][ring]overlay={cx - rw}:{cy - rw}:format=auto[br];[br][c]overlay={cx}:{cy}:format=auto,format=yuv420p[v]")
                 sh(['ffmpeg', '-y', '-v', 'error', *b_in, *talk_in, '-filter_complex', fg, '-map', '[v]', '-t', f'{dur:.3f}', *enc, str(seg)])
             else: sys.exit(f"unknown mode {s['mode']}")
@@ -264,7 +273,7 @@ def main():
     # ---- join, burn captions + packaging, mix audio
     vf = []
     if lines and E.get('captions', 'burn') == 'burn':
-        vf.append(f"subtitles='{str(ass).replace(chr(92), '/').replace(':', chr(92) + ':')}'")
+        vf.append(f"subtitles='{str(ass).replace(chr(92), '/').replace(':', chr(92) + ':')}':fontsdir='{FONTS}'")
     inputs = ['-f', 'concat', '-safe', '0', '-i', str(lst), '-ss', f'{T0:.3f}', '-t', f'{T1 - T0:.3f}', '-i', str(talk)]
     fc = [f"[0:v]{','.join(vf) if vf else 'null'}[vout]",
           "[1:a]asetpts=PTS-STARTPTS,aresample=48000,aformat=channel_layouts=stereo[voice]"]
